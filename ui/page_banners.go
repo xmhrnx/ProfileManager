@@ -14,6 +14,13 @@ import (
 // app that must close, errors, and what to do with a fresh profile.
 func (p *AppPage) banners(v engine.AppView) []giode.Element {
 	var out []giode.Element
+	if v.Mode == adapter.ModeSwap && p.ui.m.NeedsKeychain(&v.App) {
+		text := "On this computer it keeps its sign-in in the system keychain, which Profile Manager can't reach yet, so it can't be switched here."
+		if v.App.Native != nil {
+			text += " Its own profiles still work: choose “Use its own profiles” above."
+		}
+		out = append(out, banner(toneWarning, "key-round", "Keychain access needed", text))
+	}
 	active, hasActive := activeProfile(v)
 	name := active.Name
 	if c := v.State.Conflict; c != nil && hasActive {

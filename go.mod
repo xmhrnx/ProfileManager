@@ -3,14 +3,13 @@ module github.com/xmhrnx/profilemanager
 go 1.26.6
 
 require (
-	gioui.org v0.10.3
-	github.com/godbus/dbus/v5 v5.2.4
 	github.com/xmhrnx/giode v1.0.20-alpha.1
 	golang.org/x/sys v0.50.0
 )
 
 require (
 	fyne.io/systray v1.12.2 // indirect
+	gioui.org v0.10.3 // indirect
 	gioui.org/shader v1.0.9 // indirect
 	gioui.org/x v0.10.2 // indirect
 	git.sr.ht/~jackmordaunt/go-toast v1.0.0 // indirect
@@ -18,6 +17,7 @@ require (
 	github.com/esiqveland/notify v0.11.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-text/typesetting v0.3.5 // indirect
+	github.com/godbus/dbus/v5 v5.2.4 // indirect
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
 	github.com/yuin/goldmark v1.4.13 // indirect
 	golang.org/x/exp/shiny v0.0.0-20250408133849-7e4ce0ab07d0 // indirect

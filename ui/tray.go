@@ -25,7 +25,7 @@ func (t *trayMenu) install() {
 	}
 	var buf bytes.Buffer
 	if err := png.Encode(&buf, t.ui.logo); err == nil {
-		t.ui.app.Tray().SetIcon(buf.Bytes())
+		setTrayIcon(t.ui.app.Tray(), buf.Bytes())
 	}
 	t.ui.app.Tray().SetTooltip("Profile Manager")
 	t.installed = true

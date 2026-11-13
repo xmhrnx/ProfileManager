@@ -75,8 +75,6 @@ it's kept in step:
   fallback.
 - If the key is missing but the vault has data, the app refuses to start rather
   than create a new key, which would orphan the saved profiles.
-- Keychain values are written through `security -i` with hex input on macOS, so
-  secrets never appear in a process list.
 - The state file (`state.json`) holds names and hashes only, never secrets.
 
 ## Supported apps
@@ -169,21 +167,32 @@ main.go, vaultkey.go       wiring: CLI or window, where the vault key lives
 internal/adapter           app definitions, placeholders, the editor's form
 internal/capture           live sign-in <-> snapshot, fingerprints, identity
 internal/vault             AES-256-GCM sealed storage, key sources
-internal/keyring           macOS Keychain, Windows Credential Manager, Secret Service
+internal/keyring           the engine's view of the OS keychain (access comes from Giode)
 internal/engine            profiles, switching, sync, conflicts, per-command runs
 internal/native, proc,     native profile commands, process detection,
   lock, fsutil, cli        cross-process lock, atomic writes, command line
 ui/                        the window, one component per file
-assets/                    Inter and JetBrains Mono (OFL), Lucide icons (ISC)
+assets/                    app icon (brand/*.svg sources), Inter and JetBrains Mono (OFL),
+                           Lucide icons (ISC)
 ```
 
 ## Known limits
 
-- **Window resizing.** Gio exposes no resize handles for frameless windows.
-  Windows keeps native resize borders. macOS and most X11 window managers allow
-  resizing from the edges or with Alt+drag. On Wayland, use the maximize button
-  or double-click the title bar.
-- **Keychain access on macOS.** Reading an entry another program created can
-  prompt for access the first time.
+These wait on features in Giode rather than being worked around here:
+
+- **Other programs' keychain entries.** `giode.SecureStore` only reaches
+  Profile Manager's own entries. Apps whose sign-in is in the keychain can't be
+  swapped there (Claude Code on macOS; GitHub CLI on macOS and Linux, whose own
+  profiles still work); the app page says so.
+- **Default font.** Giode has no way to set the default font family, so its
+  own components (title bar, buttons, inputs, menus) use the Go fonts while
+  the rest of the interface uses Inter.
+- **Resizing frameless windows** on macOS and Linux (see below).
+
+Others:
+
+- **Window resizing.** Windows keeps native resize borders on frameless
+  windows. Elsewhere, use the maximize button or double-click the title bar
+  (some X11 window managers also allow Alt+drag).
 - **Docker credential helpers.** With `credsStore` set, Docker keeps passwords
   in the helper, keyed by registry. Only plain `auths` entries are switched.

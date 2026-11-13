@@ -6,5 +6,5 @@ import "embed"
 // FS holds fonts/ (Inter and JetBrains Mono, SIL OFL) and icons/
 // (Lucide, ISC); their licenses sit beside them.
 //
-//go:embed fonts/*.ttf icons/*.svg logo.png
+//go:embed fonts/*.ttf icons/*.svg logo.png tray-template.png
 var FS embed.FS

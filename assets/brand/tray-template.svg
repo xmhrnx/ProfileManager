@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <mask id="hole">
+      <rect width="1024" height="1024" fill="#fff"/>
+      <circle cx="512" cy="420" r="88" fill="#000"/>
+      <path d="M474 486 L550 486 C 606 548 626 630 626 668 Q626 698 596 698 L428 698 Q398 698 398 668 C 398 630 418 548 474 486 Z" fill="#000"/>
+    </mask>
+    <mask id="gap">
+      <rect width="1024" height="1024" fill="#fff"/>
+      <rect x="262" y="202" width="500" height="640" rx="92" fill="#000" transform="rotate(5 512 522)"/>
+    </mask>
+  </defs>
+  <g transform="translate(512 512) scale(1.25) translate(-512 -522)">
+    <rect x="292" y="232" width="440" height="580" rx="64" fill="none" stroke="#000" stroke-width="44" transform="rotate(-14 512 522)" mask="url(#gap)"/>
+    <rect x="292" y="232" width="440" height="580" rx="64" fill="#000" transform="rotate(5 512 522)" mask="url(#hole)"/>
+  </g>
+</svg>

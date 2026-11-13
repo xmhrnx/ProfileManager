@@ -40,7 +40,7 @@ func (m *Manager) Sync(appID string, force bool) (SyncStatus, error) {
 	skip := !ok || as0.Active == "" || modeOf(&a, as0) != adapter.ModeSwap
 	syncKeychain := m.state.Settings.SyncKeychain
 	m.mu.Unlock()
-	if skip {
+	if skip || m.NeedsKeychain(&a) {
 		return SyncSkipped, nil
 	}
 	if a.CloseBeforeSwitch && len(a.Processes) > 0 {
@@ -128,6 +128,9 @@ func (m *Manager) Resolve(ctx context.Context, appID string, r Resolution, name 
 		_, err := m.AddProfile(ctx, appID, name, "", FromCurrent)
 		return err
 	case RestoreProfile:
+		if err := m.checkKeychain(&a); err != nil {
+			return err
+		}
 		if err := m.ensureClosed(&a, false); err != nil {
 			return err
 		}

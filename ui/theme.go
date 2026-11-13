@@ -1,13 +1,9 @@
 package ui
 
 import (
-	"fmt"
 	"io/fs"
 	"strings"
 
-	"gioui.org/font"
-	"gioui.org/font/gofont"
-	"gioui.org/font/opentype"
 	"github.com/xmhrnx/giode"
 	props "github.com/xmhrnx/giode/styles/properties"
 
@@ -104,28 +100,28 @@ func setupTheme() error {
 	return giode.RegisterIconsFS(assets.FS, "icons")
 }
 
-// registerFonts makes Inter the default face, with JetBrains Mono for
-// paths and commands and the Go fonts as a fallback for other glyphs.
+// registerFonts adds Inter for the interface and JetBrains Mono for
+// paths and commands. Text built with txt and friends names them;
+// Giode's own components (buttons, inputs, menus) use its default face.
 func registerFonts() error {
-	var faces []font.FontFace
-	// The files name their own families, Inter and JetBrains Mono,
-	// which fontUI and fontMono select; the first face is the default.
-	for _, file := range []string{
-		"fonts/Inter-Regular.ttf", "fonts/Inter-Medium.ttf", "fonts/Inter-SemiBold.ttf",
-		"fonts/Inter-Bold.ttf", "fonts/JetBrainsMono-Regular.ttf",
+	var files []giode.FontFile
+	for _, f := range []struct {
+		file, family string
+		weight       giode.FontWeight
+	}{
+		{"fonts/Inter-Regular.ttf", fontUI, giode.FontWeightNormal},
+		{"fonts/Inter-Medium.ttf", fontUI, giode.FontWeightMedium},
+		{"fonts/Inter-SemiBold.ttf", fontUI, giode.FontWeightSemiBold},
+		{"fonts/Inter-Bold.ttf", fontUI, giode.FontWeightBold},
+		{"fonts/JetBrainsMono-Regular.ttf", fontMono, giode.FontWeightNormal},
 	} {
-		data, err := fs.ReadFile(assets.FS, file)
+		data, err := fs.ReadFile(assets.FS, f.file)
 		if err != nil {
 			return err
 		}
-		parsed, err := opentype.ParseCollection(data)
-		if err != nil {
-			return fmt.Errorf("font %s: %w", file, err)
-		}
-		faces = append(faces, parsed...)
+		files = append(files, giode.FontFile{Family: f.family, Weight: f.weight, Data: data})
 	}
-	giode.RegisterFonts(append(faces, gofont.Collection()...))
-	return nil
+	return giode.RegisterFont(files...)
 }
 
 // icon renders a Lucide icon.

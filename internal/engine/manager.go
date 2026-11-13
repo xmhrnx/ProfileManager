@@ -290,6 +290,24 @@ func (m *Manager) SetMode(id string, mode adapter.Mode) error {
 	return err
 }
 
+// ErrNeedsKeychain is returned for an app whose sign-in is (partly) in
+// the OS keychain when the keychain can't be reached: swapping only its
+// files would leave a mismatched sign-in behind.
+var ErrNeedsKeychain = errors.New("this app keeps its sign-in in the system keychain on this computer, which Profile Manager can't reach yet")
+
+// NeedsKeychain reports whether a can't be swapped here for want of
+// keychain access.
+func (m *Manager) NeedsKeychain(a *adapter.App) bool {
+	return len(a.KeychainFor(m.vars.GOOS)) > 0 && !keyring.Available(m.kr)
+}
+
+func (m *Manager) checkKeychain(a *adapter.App) error {
+	if m.NeedsKeychain(a) {
+		return fmt.Errorf("%s: %w", a.Name, ErrNeedsKeychain)
+	}
+	return nil
+}
+
 func newID() string {
 	var b [8]byte
 	rand.Read(b[:])

@@ -300,3 +300,17 @@ func TestVaultRefusesMissingKey(t *testing.T) {
 	}
 	_ = p
 }
+
+func TestKeychainAppsRefusedWithoutKeychain(t *testing.T) {
+	e := setup(t)
+	e.m.kr = keyring.System()
+	app := adapter.App{ID: "kc", Name: "KC",
+		Files:    []adapter.FileSpec{{ID: "f", Paths: map[string][]string{"default": {"{home}/.kc"}}}},
+		Keychain: []adapter.KeychainSpec{{ID: "k", Service: "kc"}}}
+	if err := e.m.SaveApp(app); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := e.m.AddProfile(context.Background(), "kc", "A", "", FromCurrent); !errors.Is(err, ErrNeedsKeychain) {
+		t.Fatalf("expected ErrNeedsKeychain, got %v", err)
+	}
+}
