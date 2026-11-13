@@ -1,0 +1,46 @@
+{
+  "id": "discord",
+  "name": "Discord",
+  "category": "Desktop apps",
+  "color": "#5865F2",
+  "glyph": "DC",
+  "description": "Swaps Discord's profile folder. Discord is closed before each switch.",
+  "files": [
+    {
+      "id": "profile",
+      "paths": {
+        "linux": [
+          "{xdg_config}/discord"
+        ],
+        "darwin": [
+          "{home}/Library/Application Support/discord"
+        ],
+        "windows": [
+          "{appdata}/discord"
+        ]
+      },
+      "exclude": [
+        "Cache/**",
+        "Code Cache/**",
+        "GPUCache/**",
+        "DawnCache/**",
+        "DawnGraphiteCache/**",
+        "DawnWebGPUCache/**",
+        "Service Worker/CacheStorage/**",
+        "Service Worker/ScriptCache/**",
+        "Crashpad/**",
+        "logs/**",
+        "*.log",
+        "Singleton*",
+        "modules/**",
+        "*.node",
+        "module_data/**"
+      ]
+    }
+  ],
+  "processes": [
+    "discord",
+    "Discord"
+  ],
+  "close_before_switch": true
+}

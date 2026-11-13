@@ -1,0 +1,22 @@
+{
+  "id": "terraform",
+  "name": "Terraform / HCP",
+  "category": "Cloud CLI",
+  "color": "#7B42BC",
+  "glyph": "TF",
+  "description": "Swaps the API tokens written by `terraform login`.",
+  "files": [
+    {
+      "id": "credentials",
+      "paths": {
+        "windows": [
+          "{appdata}/terraform.d/credentials.tfrc.json"
+        ],
+        "default": [
+          "{home}/.terraform.d/credentials.tfrc.json"
+        ]
+      }
+    }
+  ],
+  "login_hint": "Run `terraform login` in a terminal."
+}

@@ -1,0 +1,75 @@
+{
+  "id": "gcloud",
+  "name": "Google Cloud CLI",
+  "category": "Cloud CLI",
+  "color": "#4285F4",
+  "glyph": "GC",
+  "description": "Uses gcloud configurations, or swaps the whole gcloud config folder.",
+  "website": "https://cloud.google.com/sdk/docs/configurations",
+  "native": {
+    "list": [
+      "gcloud",
+      "config",
+      "configurations",
+      "list",
+      "--format=value(name)"
+    ],
+    "current": [
+      "gcloud",
+      "config",
+      "configurations",
+      "list",
+      "--filter=is_active:true",
+      "--format=value(name)"
+    ],
+    "switch": [
+      "gcloud",
+      "config",
+      "configurations",
+      "activate",
+      "{profile}"
+    ],
+    "create": [
+      "gcloud",
+      "config",
+      "configurations",
+      "create",
+      "{profile}",
+      "--no-activate"
+    ]
+  },
+  "files": [
+    {
+      "id": "config-dir",
+      "paths": {
+        "linux": [
+          "{xdg_config}/gcloud"
+        ],
+        "darwin": [
+          "{home}/.config/gcloud"
+        ],
+        "windows": [
+          "{appdata}/gcloud"
+        ]
+      },
+      "exclude": [
+        "logs/**",
+        "*.log",
+        "surface_data/**"
+      ],
+      "env_path": "gcloud"
+    }
+  ],
+  "env": [
+    {
+      "name": "CLOUDSDK_CONFIG",
+      "value": "{profile_dir}/gcloud"
+    }
+  ],
+  "identity": {
+    "file": "config-dir",
+    "path": "configurations/config_default",
+    "regex": "(?m)^account\\s*=\\s*(\\S+)"
+  },
+  "login_hint": "Run `gcloud auth login` in a terminal."
+}

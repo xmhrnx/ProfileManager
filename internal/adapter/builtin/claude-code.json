@@ -1,0 +1,64 @@
+{
+  "id": "claude-code",
+  "name": "Claude Code",
+  "category": "AI tools",
+  "color": "#D97757",
+  "glyph": "CC",
+  "description": "Anthropic's coding agent. Swaps the OAuth credentials and the signed-in account, leaving projects, history and settings alone.",
+  "website": "https://code.claude.com/docs",
+  "files": [
+    {
+      "id": "credentials",
+      "paths": {
+        "linux": [
+          "{home}/.claude/.credentials.json"
+        ],
+        "windows": [
+          "{home}/.claude/.credentials.json"
+        ]
+      },
+      "env_path": ".credentials.json"
+    },
+    {
+      "id": "account",
+      "paths": {
+        "default": [
+          "{home}/.claude.json"
+        ]
+      },
+      "json_keys": [
+        "oauthAccount",
+        "primaryApiKey",
+        "customApiKeyResponses"
+      ],
+      "env_path": ".claude.json"
+    }
+  ],
+  "keychain": [
+    {
+      "id": "credentials-keychain",
+      "os": [
+        "darwin"
+      ],
+      "service": "Claude Code-credentials",
+      "account": "{user}",
+      "label": "Claude Code-credentials"
+    }
+  ],
+  "env": [
+    {
+      "name": "CLAUDE_CONFIG_DIR",
+      "value": "{profile_dir}"
+    }
+  ],
+  "identity": {
+    "file": "account",
+    "json": "oauthAccount.emailAddress"
+  },
+  "processes": [
+    "claude"
+  ],
+  "close_before_switch": true,
+  "login_hint": "Run `claude` and use /login.",
+  "notes": "Running Claude Code sessions refresh their token and would write it back over the switched one, so close them before switching."
+}

@@ -1,0 +1,76 @@
+{
+  "id": "gh",
+  "name": "GitHub CLI",
+  "category": "Developer tools",
+  "color": "#8B949E",
+  "glyph": "GH",
+  "description": "Uses gh's own multi-account support (`gh auth switch`), or swaps hosts.yml and the keyring token.",
+  "website": "https://cli.github.com/manual/gh_auth_switch",
+  "native": {
+    "list": [
+      "gh",
+      "auth",
+      "status",
+      "--hostname",
+      "github.com"
+    ],
+    "list_regex": "account (\\S+)",
+    "current": [
+      "gh",
+      "auth",
+      "status",
+      "--hostname",
+      "github.com",
+      "--active"
+    ],
+    "current_regex": "account (\\S+)",
+    "switch": [
+      "gh",
+      "auth",
+      "switch",
+      "--hostname",
+      "github.com",
+      "--user",
+      "{profile}"
+    ]
+  },
+  "files": [
+    {
+      "id": "hosts",
+      "paths": {
+        "linux": [
+          "{xdg_config}/gh/hosts.yml"
+        ],
+        "darwin": [
+          "{home}/.config/gh/hosts.yml"
+        ],
+        "windows": [
+          "{appdata}/GitHub CLI/hosts.yml"
+        ]
+      },
+      "env_path": "hosts.yml"
+    }
+  ],
+  "keychain": [
+    {
+      "id": "token",
+      "os": [
+        "linux",
+        "darwin"
+      ],
+      "service": "gh:github.com",
+      "account": ""
+    }
+  ],
+  "env": [
+    {
+      "name": "GH_CONFIG_DIR",
+      "value": "{profile_dir}"
+    }
+  ],
+  "identity": {
+    "file": "hosts",
+    "regex": "(?m)^\\s+user: (\\S+)"
+  },
+  "login_hint": "Run `gh auth login` in a terminal, then refresh this list."
+}

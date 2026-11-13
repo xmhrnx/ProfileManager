@@ -1,0 +1,45 @@
+{
+  "id": "slack",
+  "name": "Slack",
+  "category": "Desktop apps",
+  "color": "#4A154B",
+  "glyph": "SL",
+  "description": "Swaps Slack's whole profile folder. Slack is closed before each switch.",
+  "files": [
+    {
+      "id": "profile",
+      "paths": {
+        "linux": [
+          "{xdg_config}/Slack"
+        ],
+        "darwin": [
+          "{home}/Library/Application Support/Slack",
+          "{home}/Library/Containers/com.tinyspeck.slackmacgap/Data/Library/Application Support/Slack"
+        ],
+        "windows": [
+          "{appdata}/Slack"
+        ]
+      },
+      "exclude": [
+        "Cache/**",
+        "Code Cache/**",
+        "GPUCache/**",
+        "DawnCache/**",
+        "DawnGraphiteCache/**",
+        "DawnWebGPUCache/**",
+        "Service Worker/CacheStorage/**",
+        "Service Worker/ScriptCache/**",
+        "Crashpad/**",
+        "logs/**",
+        "*.log",
+        "Singleton*"
+      ]
+    }
+  ],
+  "processes": [
+    "slack",
+    "Slack"
+  ],
+  "close_before_switch": true,
+  "notes": "Slack already supports several workspaces in one window; profiles are for keeping whole sets of workspaces apart."
+}

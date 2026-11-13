@@ -1,0 +1,28 @@
+{
+  "id": "docker",
+  "name": "Docker",
+  "category": "Developer tools",
+  "color": "#2496ED",
+  "glyph": "DK",
+  "description": "Swaps the registry logins in ~/.docker/config.json.",
+  "website": "https://docs.docker.com/reference/cli/docker/login/",
+  "files": [
+    {
+      "id": "config",
+      "paths": {
+        "default": [
+          "{home}/.docker/config.json"
+        ]
+      },
+      "env_path": "config.json"
+    }
+  ],
+  "env": [
+    {
+      "name": "DOCKER_CONFIG",
+      "value": "{profile_dir}"
+    }
+  ],
+  "login_hint": "Run `docker login` in a terminal.",
+  "notes": "With a credential helper (credsStore: desktop, osxkeychain, wincred, pass) the passwords stay in that helper, keyed by registry; only plain `auths` entries are switched."
+}

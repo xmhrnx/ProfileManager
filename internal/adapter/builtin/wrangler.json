@@ -1,0 +1,40 @@
+{
+  "id": "wrangler",
+  "name": "Cloudflare Wrangler",
+  "category": "Cloud CLI",
+  "color": "#F38020",
+  "glyph": "CF",
+  "description": "Cloudflare's developer CLI. Swaps the OAuth token written by `wrangler login`.",
+  "website": "https://developers.cloudflare.com/workers/wrangler/",
+  "files": [
+    {
+      "id": "config",
+      "paths": {
+        "linux": [
+          "{xdg_config}/.wrangler/config/default.toml",
+          "{home}/.wrangler/config/default.toml"
+        ],
+        "darwin": [
+          "{home}/Library/Preferences/.wrangler/config/default.toml",
+          "{home}/.wrangler/config/default.toml"
+        ],
+        "windows": [
+          "{appdata}/xdg.config/.wrangler/config/default.toml",
+          "{home}/.wrangler/config/default.toml"
+        ]
+      },
+      "env_path": "xdg/.wrangler/config/default.toml"
+    }
+  ],
+  "env": [
+    {
+      "name": "XDG_CONFIG_HOME",
+      "value": "{profile_dir}/xdg",
+      "os": [
+        "linux"
+      ]
+    }
+  ],
+  "login_hint": "Run `wrangler login` in a terminal.",
+  "notes": "A CLOUDFLARE_API_TOKEN environment variable overrides the stored login. Wrangler also caches the account ID per project in node_modules/.cache/wrangler."
+}

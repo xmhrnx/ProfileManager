@@ -1,0 +1,41 @@
+{
+  "id": "firebase",
+  "name": "Firebase CLI",
+  "category": "Cloud CLI",
+  "color": "#FFCA28",
+  "glyph": "FB",
+  "description": "Swaps the signed-in user and tokens inside firebase-tools.json, keeping project settings.",
+  "files": [
+    {
+      "id": "configstore",
+      "paths": {
+        "linux": [
+          "{xdg_config}/configstore/firebase-tools.json"
+        ],
+        "default": [
+          "{home}/.config/configstore/firebase-tools.json"
+        ]
+      },
+      "json_keys": [
+        "user",
+        "tokens"
+      ],
+      "env_path": "xdg/configstore/firebase-tools.json"
+    }
+  ],
+  "env": [
+    {
+      "name": "XDG_CONFIG_HOME",
+      "value": "{profile_dir}/xdg",
+      "os": [
+        "linux",
+        "darwin"
+      ]
+    }
+  ],
+  "identity": {
+    "file": "configstore",
+    "json": "user.email"
+  },
+  "login_hint": "Run `firebase login` in a terminal."
+}

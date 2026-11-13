@@ -1,0 +1,46 @@
+{
+  "id": "kubectl",
+  "name": "Kubernetes (kubectl)",
+  "category": "Developer tools",
+  "color": "#326CE5",
+  "glyph": "K8",
+  "description": "Uses kubeconfig contexts, or swaps the whole kubeconfig.",
+  "website": "https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/",
+  "native": {
+    "list": [
+      "kubectl",
+      "config",
+      "get-contexts",
+      "-o",
+      "name"
+    ],
+    "current": [
+      "kubectl",
+      "config",
+      "current-context"
+    ],
+    "switch": [
+      "kubectl",
+      "config",
+      "use-context",
+      "{profile}"
+    ]
+  },
+  "files": [
+    {
+      "id": "kubeconfig",
+      "paths": {
+        "default": [
+          "{home}/.kube/config"
+        ]
+      },
+      "env_path": "config"
+    }
+  ],
+  "env": [
+    {
+      "name": "KUBECONFIG",
+      "value": "{profile_dir}/config"
+    }
+  ]
+}

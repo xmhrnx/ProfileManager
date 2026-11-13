@@ -1,0 +1,32 @@
+{
+  "id": "netlify",
+  "name": "Netlify CLI",
+  "category": "Cloud CLI",
+  "color": "#32E6E2",
+  "glyph": "N",
+  "description": "Swaps the Netlify CLI's config.json, which holds the user and access token.",
+  "files": [
+    {
+      "id": "config",
+      "paths": {
+        "linux": [
+          "{xdg_config}/netlify/config.json"
+        ],
+        "darwin": [
+          "{home}/Library/Preferences/netlify/config.json"
+        ],
+        "windows": [
+          "{appdata}/netlify/Config/config.json"
+        ],
+        "default": [
+          "{home}/.netlify/config.json"
+        ]
+      }
+    }
+  ],
+  "identity": {
+    "file": "config",
+    "regex": "\"email\"\\s*:\\s*\"([^\"]+)\""
+  },
+  "login_hint": "Run `netlify login` in a terminal."
+}

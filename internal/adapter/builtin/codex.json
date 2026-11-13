@@ -1,0 +1,30 @@
+{
+  "id": "codex",
+  "name": "OpenAI Codex CLI",
+  "category": "AI tools",
+  "color": "#10A37F",
+  "glyph": "CX",
+  "description": "Swaps Codex's auth.json.",
+  "files": [
+    {
+      "id": "auth",
+      "paths": {
+        "default": [
+          "{home}/.codex/auth.json"
+        ]
+      },
+      "env_path": "auth.json"
+    }
+  ],
+  "env": [
+    {
+      "name": "CODEX_HOME",
+      "value": "{profile_dir}"
+    }
+  ],
+  "processes": [
+    "codex"
+  ],
+  "close_before_switch": true,
+  "login_hint": "Run `codex login` in a terminal."
+}

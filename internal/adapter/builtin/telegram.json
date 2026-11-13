@@ -1,0 +1,39 @@
+{
+  "id": "telegram",
+  "name": "Telegram Desktop",
+  "category": "Desktop apps",
+  "color": "#26A5E4",
+  "glyph": "TG",
+  "description": "Swaps Telegram's tdata folder. Telegram is closed before each switch.",
+  "files": [
+    {
+      "id": "tdata",
+      "paths": {
+        "linux": [
+          "{xdg_data}/TelegramDesktop/tdata",
+          "{home}/.var/app/org.telegram.desktop/data/TelegramDesktop/tdata"
+        ],
+        "darwin": [
+          "{home}/Library/Application Support/Telegram Desktop/tdata"
+        ],
+        "windows": [
+          "{appdata}/Telegram Desktop/tdata"
+        ]
+      },
+      "exclude": [
+        "user_data/**",
+        "user_data#*/**",
+        "emoji/**",
+        "dumps/**",
+        "temp/**"
+      ]
+    }
+  ],
+  "processes": [
+    "telegram-desktop",
+    "Telegram",
+    "telegram"
+  ],
+  "close_before_switch": true,
+  "notes": "Telegram itself allows up to three accounts side by side; profiles go beyond that."
+}

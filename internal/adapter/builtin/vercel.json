@@ -1,0 +1,29 @@
+{
+  "id": "vercel",
+  "name": "Vercel CLI",
+  "category": "Cloud CLI",
+  "color": "#A1A1AA",
+  "glyph": "▲",
+  "description": "Swaps the Vercel CLI's auth.json.",
+  "files": [
+    {
+      "id": "auth",
+      "paths": {
+        "linux": [
+          "{xdg_data}/com.vercel.cli/auth.json"
+        ],
+        "darwin": [
+          "{home}/Library/Application Support/com.vercel.cli/auth.json"
+        ],
+        "windows": [
+          "{appdata}/com.vercel.cli/Data/auth.json",
+          "{appdata}/com.vercel.cli/auth.json"
+        ],
+        "default": [
+          "{home}/.vercel/auth.json"
+        ]
+      }
+    }
+  ],
+  "login_hint": "Run `vercel login` in a terminal."
+}

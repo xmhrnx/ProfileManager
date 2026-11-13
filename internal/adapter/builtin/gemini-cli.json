@@ -1,0 +1,31 @@
+{
+  "id": "gemini-cli",
+  "name": "Gemini CLI",
+  "category": "AI tools",
+  "color": "#4E8CF7",
+  "glyph": "GM",
+  "description": "Swaps the Google OAuth credentials and the active account.",
+  "files": [
+    {
+      "id": "oauth",
+      "paths": {
+        "default": [
+          "{home}/.gemini/oauth_creds.json"
+        ]
+      }
+    },
+    {
+      "id": "accounts",
+      "paths": {
+        "default": [
+          "{home}/.gemini/google_accounts.json"
+        ]
+      }
+    }
+  ],
+  "identity": {
+    "file": "accounts",
+    "json": "active"
+  },
+  "login_hint": "Run `gemini` and sign in with Google."
+}

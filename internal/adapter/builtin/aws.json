@@ -1,0 +1,50 @@
+{
+  "id": "aws",
+  "name": "AWS CLI",
+  "category": "Cloud CLI",
+  "color": "#FF9900",
+  "glyph": "AW",
+  "description": "Swaps ~/.aws/credentials and ~/.aws/config, including the SSO token cache.",
+  "website": "https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html",
+  "files": [
+    {
+      "id": "credentials",
+      "paths": {
+        "default": [
+          "{home}/.aws/credentials"
+        ]
+      },
+      "env_path": "credentials"
+    },
+    {
+      "id": "config",
+      "paths": {
+        "default": [
+          "{home}/.aws/config"
+        ]
+      },
+      "env_path": "config"
+    },
+    {
+      "id": "sso-cache",
+      "paths": {
+        "default": [
+          "{home}/.aws/sso/cache"
+        ]
+      },
+      "env_path": "sso-cache"
+    }
+  ],
+  "env": [
+    {
+      "name": "AWS_SHARED_CREDENTIALS_FILE",
+      "value": "{profile_dir}/credentials"
+    },
+    {
+      "name": "AWS_CONFIG_FILE",
+      "value": "{profile_dir}/config"
+    }
+  ],
+  "login_hint": "Run `aws configure` or `aws sso login` in a terminal.",
+  "notes": "AWS profiles inside one config can also be picked per command with AWS_PROFILE. Running a command under a profile redirects the credentials and config files; the SSO cache folder can't be redirected and stays shared."
+}

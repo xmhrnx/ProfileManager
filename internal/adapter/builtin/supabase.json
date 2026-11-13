@@ -1,0 +1,20 @@
+{
+  "id": "supabase",
+  "name": "Supabase CLI",
+  "category": "Cloud CLI",
+  "color": "#3ECF8E",
+  "glyph": "SB",
+  "description": "Swaps the Supabase CLI's access token file.",
+  "files": [
+    {
+      "id": "token",
+      "paths": {
+        "default": [
+          "{home}/.supabase/access-token"
+        ]
+      }
+    }
+  ],
+  "login_hint": "Run `supabase login` in a terminal.",
+  "notes": "Recent Supabase CLI versions may keep the token in the OS keyring instead; add a keychain entry with Edit if yours does."
+}

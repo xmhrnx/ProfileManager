@@ -1,0 +1,66 @@
+{
+  "id": "azure",
+  "name": "Azure CLI",
+  "category": "Cloud CLI",
+  "color": "#0078D4",
+  "glyph": "AZ",
+  "description": "Uses `az account set` to pick a subscription, or swaps the whole .azure folder for separate tenants.",
+  "website": "https://learn.microsoft.com/cli/azure/manage-azure-subscriptions-azure-cli",
+  "native": {
+    "list": [
+      "az",
+      "account",
+      "list",
+      "--query",
+      "[].name",
+      "-o",
+      "tsv"
+    ],
+    "current": [
+      "az",
+      "account",
+      "show",
+      "--query",
+      "name",
+      "-o",
+      "tsv"
+    ],
+    "switch": [
+      "az",
+      "account",
+      "set",
+      "--subscription",
+      "{profile}"
+    ]
+  },
+  "files": [
+    {
+      "id": "config-dir",
+      "paths": {
+        "default": [
+          "{home}/.azure"
+        ]
+      },
+      "exclude": [
+        "logs/**",
+        "telemetry/**",
+        "commands/**",
+        "cliextensions/**",
+        "*.log"
+      ],
+      "env_path": "azure"
+    }
+  ],
+  "env": [
+    {
+      "name": "AZURE_CONFIG_DIR",
+      "value": "{profile_dir}/azure"
+    }
+  ],
+  "identity": {
+    "file": "config-dir",
+    "path": "azureProfile.json",
+    "json": "subscriptions.0.user.name"
+  },
+  "login_hint": "Run `az login` in a terminal."
+}

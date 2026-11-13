@@ -1,0 +1,19 @@
+{
+  "id": "flyctl",
+  "name": "Fly.io (flyctl)",
+  "category": "Cloud CLI",
+  "color": "#8B5CF6",
+  "glyph": "FL",
+  "description": "Swaps ~/.fly/config.yml, which holds the access token.",
+  "files": [
+    {
+      "id": "config",
+      "paths": {
+        "default": [
+          "{home}/.fly/config.yml"
+        ]
+      }
+    }
+  ],
+  "login_hint": "Run `fly auth login` in a terminal."
+}

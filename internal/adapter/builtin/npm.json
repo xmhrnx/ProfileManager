@@ -1,0 +1,27 @@
+{
+  "id": "npm",
+  "name": "npm",
+  "category": "Developer tools",
+  "color": "#CB3837",
+  "glyph": "np",
+  "description": "Swaps ~/.npmrc, which holds registry auth tokens.",
+  "website": "https://docs.npmjs.com/cli/configuring-npm/npmrc",
+  "files": [
+    {
+      "id": "npmrc",
+      "paths": {
+        "default": [
+          "{home}/.npmrc"
+        ]
+      },
+      "env_path": "npmrc"
+    }
+  ],
+  "env": [
+    {
+      "name": "NPM_CONFIG_USERCONFIG",
+      "value": "{profile_dir}/npmrc"
+    }
+  ],
+  "login_hint": "Run `npm login` in a terminal."
+}

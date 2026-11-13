@@ -1,0 +1,10 @@
+[app]
+name = "Profile Manager"
+id = "com.xmhrnx.profilemanager"
+version = "0.1.0"
+build = 1
+icon = "assets/icon.png"
+platforms = ["windows", "macos", "linux"]
+description = "Switch sign-ins between accounts for CLIs and desktop apps."
+website = "https://github.com/xmhrnx/profilemanager"
+ldflags = "-X github.com/xmhrnx/profilemanager/internal/cli.Version={version}"
