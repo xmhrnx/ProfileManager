@@ -27,15 +27,18 @@ func main() {
 	}
 	iconPNG, _ := assets.FS.ReadFile("logo.png")
 	app := giode.New(giode.Config{
-		Title:       "Profile Manager",
-		Size:        image.Pt(1240, 800),
-		MinSize:     image.Pt(900, 600),
-		Resizable:   true,
-		Frameless:   true,
-		Center:      true,
-		Background:  "theme.background",
-		Icon:        iconPNG,
-		CloseToTray: m.Settings().CloseToTray,
+		Title:          "Profile Manager",
+		Size:           image.Pt(1240, 800),
+		MinSize:        image.Pt(900, 600),
+		Resizable:      true,
+		Frameless:      true,
+		Center:         true,
+		Background:     "theme.background",
+		Icon:           iconPNG,
+		CloseToTray:    m.Settings().CloseToTray,
+		MinimizeToTray: m.Settings().MinimizeToTray,
+		// Started at login: only the tray icon, no window to dismiss.
+		StartInTray: giode.StartInTrayAtLogin,
 		SingleInstanceLock: &giode.SingleInstanceLock{
 			UniqueID: "com.xmhrnx.profilemanager",
 		},

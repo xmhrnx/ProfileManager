@@ -26,7 +26,7 @@ func (d *DetailsPanel) Layout(gtx giode.Context) giode.Dimensions {
 		cols = append(cols, d.runCard(v))
 	}
 	cols = append(cols, d.whereCard(v))
-	return giode.Row(giode.Styles{Width: -1, Gap: 16, Align: giode.AlignStretch, Wrap: giode.WrapWrap}, cols...).Layout(gtx)
+	return giode.Stack(giode.Styles{Width: -1, Gap: 16}, cols...).Layout(gtx)
 }
 
 func panelHeading(iconName, s string) giode.Element {
@@ -38,7 +38,7 @@ func panelHeading(iconName, s string) giode.Element {
 
 func (d *DetailsPanel) runCard(v engine.AppView) giode.Element {
 	st := cardStyles()
-	st.FlexDirection, st.Gap, st.FlexGrow, st.MinWidth, st.Padding = giode.FlexDirectionColumn, 12, 1, 360, giode.UniformInset(20)
+	st.FlexDirection, st.Gap, st.Width, st.Padding = giode.FlexDirectionColumn, 12, -1, giode.UniformInset(20)
 	kids := []giode.Element{panelHeading("terminal", "Use a profile in one terminal")}
 	goos := d.ui.m.GOOS()
 	if !v.App.SupportsEnv(goos) {
@@ -77,7 +77,7 @@ func (d *DetailsPanel) runCard(v engine.AppView) giode.Element {
 
 func (d *DetailsPanel) whereCard(v engine.AppView) giode.Element {
 	st := cardStyles()
-	st.FlexDirection, st.Gap, st.FlexGrow, st.MinWidth, st.Padding = giode.FlexDirectionColumn, 12, 1, 360, giode.UniformInset(20)
+	st.FlexDirection, st.Gap, st.Width, st.Padding = giode.FlexDirectionColumn, 12, -1, giode.UniformInset(20)
 	kids := []giode.Element{panelHeading("folder", "Where the sign-in lives")}
 	if v.Mode == adapter.ModeNative {
 		n := v.App.Native

@@ -33,6 +33,8 @@ type Settings struct {
 	Theme string `json:"theme"`
 	// CloseToTray keeps the app in the tray when the window closes.
 	CloseToTray bool `json:"close_to_tray"`
+	// MinimizeToTray hides the window to the tray when it's minimized.
+	MinimizeToTray bool `json:"minimize_to_tray"`
 }
 
 // DefaultSettings are used on first run.

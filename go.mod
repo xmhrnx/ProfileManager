@@ -10,7 +10,7 @@ require (
 
 require (
 	fyne.io/systray v1.12.2 // indirect
-	gioui.org v0.10.3 // indirect
+	gioui.org v0.10.2 // indirect
 	gioui.org/shader v1.0.9 // indirect
 	gioui.org/x v0.10.2 // indirect
 	git.sr.ht/~jackmordaunt/go-toast v1.0.0 // indirect
