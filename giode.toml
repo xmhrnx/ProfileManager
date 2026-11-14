@@ -8,3 +8,6 @@ platforms = ["windows", "macos", "linux"]
 description = "Switch sign-ins between accounts for CLIs and desktop apps."
 website = "https://github.com/xmhrnx/profilemanager"
 ldflags = "-X github.com/xmhrnx/profilemanager/internal/cli.Version={version}"
+
+[ci]
+test = "go vet ./... && go test ./..."

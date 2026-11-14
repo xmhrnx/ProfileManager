@@ -25,6 +25,7 @@ type SettingsDialog struct {
 	autoSync *toggle.Switch
 	keychain *toggle.Switch
 	tray     *toggle.Switch
+	minimize *toggle.Switch
 	login    *toggle.Switch
 	done     *ActionButton
 	copyDir  *IconButton
@@ -54,7 +55,11 @@ func newSettingsDialog(u *UI) *SettingsDialog {
 		u.app.SetCloseToTray(on)
 		set(func(st *engine.Settings) { st.CloseToTray = on })
 	})
-	s.login = sw("Start at login").OnChange(func(on bool) {
+	s.minimize = sw("Minimize to the tray").OnChange(func(on bool) {
+		u.app.SetMinimizeToTray(on)
+		set(func(st *engine.Settings) { st.MinimizeToTray = on })
+	})
+	s.login = sw("Start at login, in the tray").OnChange(func(on bool) {
 		if err := u.app.SetLaunchAtLogin(on); err != nil {
 			u.toasts.Show(giode.ToastError, friendly(err))
 		}
@@ -81,6 +86,7 @@ func (s *SettingsDialog) open() {
 	s.autoSync.SetChecked(set.AutoSync)
 	s.keychain.SetChecked(set.SyncKeychain)
 	s.tray.SetChecked(set.CloseToTray)
+	s.minimize.SetChecked(set.MinimizeToTray)
 	s.login.SetChecked(s.ui.app.LaunchAtLogin())
 	s.shown = true
 }
@@ -96,7 +102,7 @@ func (s *SettingsDialog) content() giode.Element {
 		group(s.autoSync,
 			field("Check every", "Only changed files are read; tokens refreshed by your tools land in the vault within this time.", s.every),
 			s.keychain),
-		group(s.tray, s.login),
+		group(s.minimize, s.tray, s.login),
 		field("Vault", "Profiles are sealed with AES-256-GCM; the key is kept in "+s.ui.m.KeyLocation()+".",
 			giode.Row(giode.Styles{Width: -1, Gap: 8, Align: giode.AlignCenter, Padding: giode.Inset{Left: 12, Right: 4, Top: 4, Bottom: 4}, Background: colBackground, BorderRadius: 9, BorderWidth: 1, BorderColor: colBorder, Wrap: giode.WrapNoWrap},
 				giode.Box(giode.Styles{FlexGrow: 1}, txt(s.ui.m.DataDir(), giode.Styles{FontFamily: fontMono, FontSize: 12, TextOverflow: giode.TextOverflowEllipsis})),

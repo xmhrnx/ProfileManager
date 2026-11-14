@@ -164,6 +164,14 @@ go run .                      # or: giode run
 giode build windows-installer dmg deb
 ```
 
+Releases build in GitHub Actions (`.github/workflows/release.yml`, written by
+`giode ci` from `giode.toml`; change `[ci]` there and rerun `giode ci -f`
+instead of editing it). Pushing a version tag (`git tag v0.1.0 && git push
+--tags`) runs the tests, builds a `.dmg` for macOS, a setup `.exe` and `.msix`
+for Windows, and `.deb` and `.rpm` packages for Linux, and attaches them to a
+GitHub release. "Run workflow" in the Actions tab builds them without
+releasing. Signing uses the repository's secrets when they're set.
+
 The data folder is `ProfileManager` in the user's config folder. Set
 `PROFILE_MANAGER_HOME` to use another one.
 
