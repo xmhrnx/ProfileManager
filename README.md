@@ -185,9 +185,6 @@ assets/                    app icon (brand/*.svg sources), Inter and JetBrains M
 
 ## Known limits
 
-- **Default font.** Giode has no way to set the default font family yet, so
-  its own components (title bar, buttons, inputs, menus) use the Go fonts while
-  the rest of the interface uses Inter.
 - **Keychain access on macOS.** Reading an entry another program created can
   prompt for access the first time.
 - **Docker credential helpers.** With `credsStore` set, Docker keeps passwords

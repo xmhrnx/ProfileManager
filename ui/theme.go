@@ -97,12 +97,14 @@ func setupTheme() error {
 	if err := registerFonts(); err != nil {
 		return err
 	}
+	// Inter for all text without a FontFamily, Giode's components
+	// included; set before the window opens.
+	giode.SetDefaultFont(fontUI)
 	return giode.RegisterIconsFS(assets.FS, "icons")
 }
 
-// registerFonts adds Inter for the interface and JetBrains Mono for
-// paths and commands. Text built with txt and friends names them;
-// Giode's own components (buttons, inputs, menus) use its default face.
+// registerFonts adds Inter, the interface font, and JetBrains Mono for
+// paths and commands.
 func registerFonts() error {
 	var files []giode.FontFile
 	for _, f := range []struct {
@@ -132,9 +134,6 @@ func icon(name string, size int, color giode.Color) giode.Element {
 // Text helpers in the type scale.
 
 func txt(s string, st giode.Styles) giode.Element {
-	if st.FontFamily == "" {
-		st.FontFamily = fontUI
-	}
 	if st.Color == "" {
 		st.Color = colText
 	}
