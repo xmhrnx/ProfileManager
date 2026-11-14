@@ -75,6 +75,10 @@ it's kept in step:
   fallback.
 - If the key is missing but the vault has data, the app refuses to start rather
   than create a new key, which would orphan the saved profiles.
+- Other programs' keychain entries are read and written directly: through
+  `/usr/bin/security` on macOS (the value goes in as hex on standard input, so
+  it never appears in a process list), the Credential Manager API on Windows,
+  and the Secret Service D-Bus API on Linux.
 - The state file (`state.json`) holds names and hashes only, never secrets.
 
 ## Supported apps
@@ -153,6 +157,9 @@ Go 1.26+ is required. On Linux you also need Gio's headers (see the
 
 ```sh
 go test ./...
+# keychain integration test, against a throwaway GNOME Keyring:
+dbus-run-session -- sh -c 'echo pw | gnome-keyring-daemon --unlock --components=secrets >/dev/null &&
+    go test -tags keyring_integration ./internal/keyring'
 go run .                      # or: giode run
 giode build windows-installer dmg deb
 ```
@@ -167,7 +174,7 @@ main.go, vaultkey.go       wiring: CLI or window, where the vault key lives
 internal/adapter           app definitions, placeholders, the editor's form
 internal/capture           live sign-in <-> snapshot, fingerprints, identity
 internal/vault             AES-256-GCM sealed storage, key sources
-internal/keyring           the engine's view of the OS keychain (access comes from Giode)
+internal/keyring           other programs' entries in the Keychain, Credential Manager, Secret Service
 internal/engine            profiles, switching, sync, conflicts, per-command runs
 internal/native, proc,     native profile commands, process detection,
   lock, fsutil, cli        cross-process lock, atomic writes, command line
@@ -178,21 +185,10 @@ assets/                    app icon (brand/*.svg sources), Inter and JetBrains M
 
 ## Known limits
 
-These wait on features in Giode rather than being worked around here:
-
-- **Other programs' keychain entries.** `giode.SecureStore` only reaches
-  Profile Manager's own entries. Apps whose sign-in is in the keychain can't be
-  swapped there (Claude Code on macOS; GitHub CLI on macOS and Linux, whose own
-  profiles still work); the app page says so.
-- **Default font.** Giode has no way to set the default font family, so its
-  own components (title bar, buttons, inputs, menus) use the Go fonts while
+- **Default font.** Giode has no way to set the default font family yet, so
+  its own components (title bar, buttons, inputs, menus) use the Go fonts while
   the rest of the interface uses Inter.
-- **Resizing frameless windows** on macOS and Linux (see below).
-
-Others:
-
-- **Window resizing.** Windows keeps native resize borders on frameless
-  windows. Elsewhere, use the maximize button or double-click the title bar
-  (some X11 window managers also allow Alt+drag).
+- **Keychain access on macOS.** Reading an entry another program created can
+  prompt for access the first time.
 - **Docker credential helpers.** With `credsStore` set, Docker keeps passwords
   in the helper, keyed by registry. Only plain `auths` entries are switched.

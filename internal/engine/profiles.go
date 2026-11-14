@@ -43,9 +43,6 @@ func (m *Manager) AddProfile(ctx context.Context, appID, name, color string, src
 	if mode == adapter.ModeNative {
 		return m.addNative(ctx, &a, name)
 	}
-	if err := m.checkKeychain(&a); err != nil {
-		return Profile{}, err
-	}
 	var created Profile
 	err = m.update(func(st *State) error {
 		as := appState(st, appID)

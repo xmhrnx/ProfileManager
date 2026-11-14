@@ -1,11 +1,6 @@
-// Package keyring is how the engine reads and writes other programs'
-// entries in the OS credential store (the macOS Keychain, Windows
-// Credential Manager, the Secret Service on Linux).
-//
-// The access itself is Giode's to provide: giode.SecureStore only
-// reaches this app's own entries so far. Until it can read and write
-// entries by service, account and attributes, System is unavailable and
-// apps that keep their sign-in in the keychain can't be swapped.
+// Package keyring reads and writes other programs' entries in the OS
+// credential store: the macOS Keychain, Windows Credential Manager and
+// the freedesktop Secret Service (GNOME Keyring, KWallet) on Linux.
 package keyring
 
 import "errors"
@@ -40,19 +35,7 @@ type Keyring interface {
 }
 
 // System returns the credential store of this computer.
-func System() Keyring { return unavailable{} }
-
-// Available reports whether k can reach the credential store.
-func Available(k Keyring) bool {
-	_, none := k.(unavailable)
-	return !none
-}
-
-type unavailable struct{}
-
-func (unavailable) Get(Item) ([]byte, error) { return nil, ErrUnsupported }
-func (unavailable) Set(Item, []byte) error   { return ErrUnsupported }
-func (unavailable) Delete(Item) error        { return ErrUnsupported }
+func System() Keyring { return system{} }
 
 // Memory is an in-memory Keyring for tests.
 type Memory struct{ M map[string][]byte }

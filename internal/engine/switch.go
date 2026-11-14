@@ -53,9 +53,6 @@ func (m *Manager) Switch(ctx context.Context, appID, profileID string, opt Switc
 	if mode == adapter.ModeNative {
 		return SwitchResult{}, m.switchNative(ctx, &a, profileID)
 	}
-	if err := m.checkKeychain(&a); err != nil {
-		return SwitchResult{}, err
-	}
 	if err := m.ensureClosed(&a, opt.QuitRunning); err != nil {
 		return SwitchResult{}, err
 	}

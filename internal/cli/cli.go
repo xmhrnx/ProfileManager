@@ -296,7 +296,7 @@ func (c *cmd) add(args []string) error {
 	}
 	switch {
 	case *blank:
-		fmt.Fprintf(c.out, "Created %q. Switch to it, then sign in: %s\n", p.Name, v.App.LoginHint)
+		fmt.Fprintf(c.out, "Created %q. Switch to it, then sign in to %s; the sign-in is saved into it.\n", p.Name, v.App.Name)
 	case p.Empty:
 		fmt.Fprintf(c.out, "Saved %q, but %s isn't signed in right now, so it's empty.\n", p.Name, v.App.Name)
 	default:
