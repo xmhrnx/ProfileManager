@@ -1,0 +1,30 @@
+{
+  "id": "tailscale",
+  "name": "Tailscale",
+  "category": "Networking",
+  "color": "#5A5A5A",
+  "glyph": "TS",
+  "description": "Switches between the tailnet accounts Tailscale is signed in to, with `tailscale switch`.",
+  "website": "https://tailscale.com/kb/1225/fast-user-switching",
+  "native": {
+    "list": [
+      "tailscale",
+      "switch",
+      "--list"
+    ],
+    "list_regex": "(?m)^[0-9a-f]+\\s+\\S+\\s+(\\S+?)\\*?\\s*$",
+    "current": [
+      "tailscale",
+      "switch",
+      "--list"
+    ],
+    "current_regex": "(?m)^[0-9a-f]+\\s+\\S+\\s+(\\S+?)\\*\\s*$",
+    "switch": [
+      "tailscale",
+      "switch",
+      "{profile}"
+    ]
+  },
+  "login_hint": "Add an account with `tailscale login`, then refresh.",
+  "notes": "On Linux, switching may need you to be the Tailscale operator (`sudo tailscale set --operator=$USER`)."
+}

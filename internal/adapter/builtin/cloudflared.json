@@ -1,0 +1,27 @@
+{
+  "id": "cloudflared",
+  "name": "Cloudflare Tunnel (cloudflared)",
+  "category": "Networking",
+  "color": "#F6821F",
+  "glyph": "CT",
+  "description": "Swaps the account certificate written by `cloudflared tunnel login`.",
+  "files": [
+    {
+      "id": "cert",
+      "paths": {
+        "default": [
+          "{home}/.cloudflared/cert.pem"
+        ]
+      },
+      "env_path": "cert.pem"
+    }
+  ],
+  "env": [
+    {
+      "name": "TUNNEL_ORIGIN_CERT",
+      "value": "{profile_dir}/cert.pem"
+    }
+  ],
+  "login_hint": "Run `cloudflared tunnel login` in a terminal.",
+  "notes": "Each tunnel's own credentials file stays in ~/.cloudflared and works under any profile."
+}

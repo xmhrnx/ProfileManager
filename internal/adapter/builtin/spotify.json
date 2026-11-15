@@ -1,0 +1,46 @@
+{
+  "id": "spotify",
+  "name": "Spotify",
+  "category": "Desktop apps",
+  "color": "#1DB954",
+  "glyph": "SP",
+  "description": "Swaps Spotify's settings folder, which holds the signed-in account. Spotify is closed before each switch.",
+  "files": [
+    {
+      "id": "profile",
+      "paths": {
+        "linux": [
+          "{xdg_config}/spotify"
+        ],
+        "darwin": [
+          "{home}/Library/Application Support/Spotify"
+        ],
+        "windows": [
+          "{appdata}/Spotify"
+        ]
+      },
+      "exclude": [
+        "Cache/**",
+        "Code Cache/**",
+        "GPUCache/**",
+        "DawnCache/**",
+        "DawnGraphiteCache/**",
+        "DawnWebGPUCache/**",
+        "Service Worker/CacheStorage/**",
+        "Service Worker/ScriptCache/**",
+        "Crashpad/**",
+        "logs/**",
+        "*.log",
+        "Singleton*",
+        "Storage/**",
+        "Data/**",
+        "Browser/**"
+      ]
+    }
+  ],
+  "processes": [
+    "spotify",
+    "Spotify"
+  ],
+  "close_before_switch": true
+}

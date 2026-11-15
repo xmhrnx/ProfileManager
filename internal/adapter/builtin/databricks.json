@@ -1,0 +1,36 @@
+{
+  "id": "databricks",
+  "name": "Databricks CLI",
+  "category": "Cloud CLI",
+  "color": "#FF3621",
+  "glyph": "DB",
+  "description": "Swaps ~/.databrickscfg, which holds the workspace hosts and tokens.",
+  "files": [
+    {
+      "id": "config",
+      "paths": {
+        "default": [
+          "{home}/.databrickscfg"
+        ]
+      },
+      "env_path": "databrickscfg"
+    },
+    {
+      "id": "token-cache",
+      "paths": {
+        "default": [
+          "{home}/.databricks/token-cache.json"
+        ]
+      },
+      "env_path": "token-cache.json"
+    }
+  ],
+  "env": [
+    {
+      "name": "DATABRICKS_CONFIG_FILE",
+      "value": "{profile_dir}/databrickscfg"
+    }
+  ],
+  "login_hint": "Run `databricks auth login` in a terminal.",
+  "notes": "Running a command under a profile redirects the config file; the OAuth token cache stays shared."
+}

@@ -1,0 +1,33 @@
+{
+  "id": "glab",
+  "name": "GitLab CLI",
+  "category": "Developer tools",
+  "color": "#FC6D26",
+  "glyph": "GL",
+  "description": "Swaps glab's config, which holds the token for each GitLab host.",
+  "website": "https://gitlab.com/gitlab-org/cli",
+  "files": [
+    {
+      "id": "config",
+      "paths": {
+        "linux": [
+          "{xdg_config}/glab-cli/config.yml"
+        ],
+        "darwin": [
+          "{home}/.config/glab-cli/config.yml"
+        ],
+        "windows": [
+          "{appdata}/glab-cli/config.yml"
+        ]
+      },
+      "env_path": "config.yml"
+    }
+  ],
+  "env": [
+    {
+      "name": "GLAB_CONFIG_DIR",
+      "value": "{profile_dir}"
+    }
+  ],
+  "login_hint": "Run `glab auth login` in a terminal."
+}

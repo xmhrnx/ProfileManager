@@ -1,0 +1,32 @@
+{
+  "id": "bitwarden-cli",
+  "name": "Bitwarden CLI",
+  "category": "Security",
+  "color": "#175DDC",
+  "glyph": "BW",
+  "description": "Swaps the Bitwarden CLI's data file: the signed-in account and its encrypted vault.",
+  "files": [
+    {
+      "id": "data",
+      "paths": {
+        "linux": [
+          "{xdg_config}/Bitwarden CLI/data.json"
+        ],
+        "darwin": [
+          "{home}/Library/Application Support/Bitwarden CLI/data.json"
+        ],
+        "windows": [
+          "{appdata}/Bitwarden CLI/data.json"
+        ]
+      },
+      "env_path": "data.json"
+    }
+  ],
+  "env": [
+    {
+      "name": "BITWARDENCLI_APPDATA_DIR",
+      "value": "{profile_dir}"
+    }
+  ],
+  "login_hint": "Run `bw login` in a terminal."
+}

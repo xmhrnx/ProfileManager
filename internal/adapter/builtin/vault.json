@@ -1,0 +1,20 @@
+{
+  "id": "vault",
+  "name": "HashiCorp Vault",
+  "category": "Developer tools",
+  "color": "#FFD814",
+  "glyph": "HV",
+  "description": "Swaps ~/.vault-token, the token `vault login` saves.",
+  "files": [
+    {
+      "id": "token",
+      "paths": {
+        "default": [
+          "{home}/.vault-token"
+        ]
+      }
+    }
+  ],
+  "login_hint": "Run `vault login` in a terminal.",
+  "notes": "VAULT_ADDR picks the server; a VAULT_TOKEN environment variable overrides the saved token."
+}

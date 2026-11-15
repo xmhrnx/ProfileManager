@@ -1,0 +1,23 @@
+{
+  "id": "stripe",
+  "name": "Stripe CLI",
+  "category": "Developer tools",
+  "color": "#635BFF",
+  "glyph": "ST",
+  "description": "Swaps the Stripe CLI's config, which holds the account keys from `stripe login`.",
+  "files": [
+    {
+      "id": "config",
+      "paths": {
+        "linux": [
+          "{xdg_config}/stripe/config.toml"
+        ],
+        "default": [
+          "{home}/.config/stripe/config.toml"
+        ]
+      }
+    }
+  ],
+  "login_hint": "Run `stripe login` in a terminal.",
+  "notes": "Several accounts can also live in one config as projects (`stripe --project-name`)."
+}

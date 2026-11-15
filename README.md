@@ -87,10 +87,12 @@ Built-in definitions live in `internal/adapter/builtin/*.json`:
 
 | Category | Apps |
 | --- | --- |
-| Cloud CLIs | Cloudflare Wrangler, AWS CLI, Google Cloud CLI, Azure CLI, Vercel, Netlify, Firebase, Fly.io, Supabase, Terraform/HCP |
-| AI tools | Claude Code, OpenAI Codex CLI, Gemini CLI |
-| Developer tools | GitHub CLI, kubectl, Docker, npm |
-| Desktop apps | Slack, Discord, Telegram Desktop |
+| Cloud CLIs | Cloudflare Wrangler, AWS CLI, Google Cloud CLI, Azure CLI, Oracle Cloud (OCI), DigitalOcean (doctl), Hetzner Cloud (hcloud), Vercel, Netlify, Firebase, Fly.io, Supabase, Terraform/HCP, Pulumi, Databricks |
+| AI tools | Claude Code, OpenAI Codex CLI, Gemini CLI, Hugging Face |
+| Developer tools | GitHub CLI, GitLab CLI, kubectl, Docker, npm, HashiCorp Vault, Stripe CLI, Expo/EAS |
+| Networking | Tailscale, Cloudflare Tunnel (cloudflared) |
+| Security | Bitwarden CLI |
+| Desktop apps | Slack, Discord, Telegram Desktop, Signal Desktop, Element, Postman, Spotify |
 
 ### Adding your own
 

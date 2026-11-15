@@ -1,0 +1,46 @@
+{
+  "id": "signal",
+  "name": "Signal Desktop",
+  "category": "Desktop apps",
+  "color": "#3A76F0",
+  "glyph": "SG",
+  "description": "Swaps Signal's whole data folder (linked device, messages). Signal is closed before each switch.",
+  "files": [
+    {
+      "id": "profile",
+      "paths": {
+        "linux": [
+          "{xdg_config}/Signal"
+        ],
+        "darwin": [
+          "{home}/Library/Application Support/Signal"
+        ],
+        "windows": [
+          "{appdata}/Signal"
+        ]
+      },
+      "exclude": [
+        "Cache/**",
+        "Code Cache/**",
+        "GPUCache/**",
+        "DawnCache/**",
+        "DawnGraphiteCache/**",
+        "DawnWebGPUCache/**",
+        "Service Worker/CacheStorage/**",
+        "Service Worker/ScriptCache/**",
+        "Crashpad/**",
+        "logs/**",
+        "*.log",
+        "Singleton*",
+        "attachments.noindex/**",
+        "temp/**"
+      ]
+    }
+  ],
+  "processes": [
+    "signal-desktop",
+    "Signal"
+  ],
+  "close_before_switch": true,
+  "notes": "Each profile is a separately linked device in the Signal app on your phone."
+}

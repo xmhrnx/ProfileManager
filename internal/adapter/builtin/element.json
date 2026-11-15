@@ -1,0 +1,43 @@
+{
+  "id": "element",
+  "name": "Element",
+  "category": "Desktop apps",
+  "color": "#0DBD8B",
+  "glyph": "EL",
+  "description": "Swaps Element's data folder (Matrix session and keys). Element is closed before each switch.",
+  "files": [
+    {
+      "id": "profile",
+      "paths": {
+        "linux": [
+          "{xdg_config}/Element"
+        ],
+        "darwin": [
+          "{home}/Library/Application Support/Element"
+        ],
+        "windows": [
+          "{appdata}/Element"
+        ]
+      },
+      "exclude": [
+        "Cache/**",
+        "Code Cache/**",
+        "GPUCache/**",
+        "DawnCache/**",
+        "DawnGraphiteCache/**",
+        "DawnWebGPUCache/**",
+        "Service Worker/CacheStorage/**",
+        "Service Worker/ScriptCache/**",
+        "Crashpad/**",
+        "logs/**",
+        "*.log",
+        "Singleton*"
+      ]
+    }
+  ],
+  "processes": [
+    "element-desktop",
+    "Element"
+  ],
+  "close_before_switch": true
+}

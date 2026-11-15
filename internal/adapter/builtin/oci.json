@@ -1,0 +1,23 @@
+{
+  "id": "oci",
+  "name": "Oracle Cloud (OCI CLI)",
+  "category": "Cloud CLI",
+  "color": "#C74634",
+  "glyph": "OC",
+  "description": "Swaps the ~/.oci folder: the config, API signing keys and session tokens.",
+  "files": [
+    {
+      "id": "oci-dir",
+      "paths": {
+        "default": [
+          "{home}/.oci"
+        ]
+      },
+      "exclude": [
+        "logs/**",
+        "*.log"
+      ]
+    }
+  ],
+  "login_hint": "Run `oci setup config` or `oci session authenticate` in a terminal."
+}

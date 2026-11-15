@@ -1,0 +1,36 @@
+{
+  "id": "huggingface",
+  "name": "Hugging Face",
+  "category": "AI tools",
+  "color": "#FFD21E",
+  "glyph": "HF",
+  "description": "Swaps the Hugging Face token used by the CLI and the Python libraries.",
+  "files": [
+    {
+      "id": "token",
+      "paths": {
+        "default": [
+          "{home}/.cache/huggingface/token"
+        ]
+      },
+      "env_path": "token"
+    },
+    {
+      "id": "stored-tokens",
+      "paths": {
+        "default": [
+          "{home}/.cache/huggingface/stored_tokens"
+        ]
+      },
+      "env_path": "stored_tokens"
+    }
+  ],
+  "env": [
+    {
+      "name": "HF_TOKEN_PATH",
+      "value": "{profile_dir}/token"
+    }
+  ],
+  "login_hint": "Run `hf auth login` in a terminal.",
+  "notes": "An HF_TOKEN environment variable overrides the saved token. A custom HF_HOME moves the token; edit the paths to match."
+}

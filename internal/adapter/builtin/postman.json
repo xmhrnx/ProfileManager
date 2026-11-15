@@ -1,0 +1,44 @@
+{
+  "id": "postman",
+  "name": "Postman",
+  "category": "Desktop apps",
+  "color": "#FF6C37",
+  "glyph": "PM",
+  "description": "Swaps Postman's data folder, which holds the signed-in account. Postman is closed before each switch.",
+  "files": [
+    {
+      "id": "profile",
+      "paths": {
+        "linux": [
+          "{xdg_config}/Postman"
+        ],
+        "darwin": [
+          "{home}/Library/Application Support/Postman"
+        ],
+        "windows": [
+          "{appdata}/Postman"
+        ]
+      },
+      "exclude": [
+        "Cache/**",
+        "Code Cache/**",
+        "GPUCache/**",
+        "DawnCache/**",
+        "DawnGraphiteCache/**",
+        "DawnWebGPUCache/**",
+        "Service Worker/CacheStorage/**",
+        "Service Worker/ScriptCache/**",
+        "Crashpad/**",
+        "logs/**",
+        "*.log",
+        "Singleton*"
+      ]
+    }
+  ],
+  "processes": [
+    "postman",
+    "Postman"
+  ],
+  "close_before_switch": true,
+  "notes": "Postman can also hold several accounts itself; profiles keep whole setups apart."
+}

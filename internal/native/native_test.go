@@ -2,6 +2,7 @@ package native
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	"github.com/xmhrnx/profilemanager/internal/adapter"
@@ -47,5 +48,44 @@ func TestLinesAndExpand(t *testing.T) {
 	}
 	if got := expand([]string{"use", "{profile}"}, "x"); got[1] != "x" {
 		t.Fatal(got)
+	}
+}
+
+func builtin(t *testing.T, id string) adapter.App {
+	t.Helper()
+	apps, _ := adapter.Builtins()
+	for _, a := range apps {
+		if a.ID == id {
+			return a
+		}
+	}
+	t.Fatalf("no built-in %s", id)
+	return adapter.App{}
+}
+
+func TestParseBuiltinOutputs(t *testing.T) {
+	cases := []struct {
+		app, out string
+		list     []string
+		current  string
+	}{
+		{"doctl", "default\nwork (current)\nclient\n", []string{"default", "work", "client"}, "work"},
+		{"tailscale", "ID    Tailnet             Account\n4a1b  example.com         me@example.com*\n7c2d  corp.example        me@corp.example\n",
+			[]string{"me@example.com", "me@corp.example"}, "me@example.com"},
+		{"kubectl", "dev\nprod\n", []string{"dev", "prod"}, "dev\n"},
+	}
+	for _, c := range cases {
+		a := builtin(t, c.app)
+		d := Driver{Spec: a.Native, Run: func(context.Context, []string) (string, error) { return c.out, nil }}
+		list, err := d.List(context.Background())
+		if err != nil || strings.Join(list, ",") != strings.Join(c.list, ",") {
+			t.Errorf("%s list = %v, %v", c.app, list, err)
+		}
+		if c.app == "kubectl" {
+			continue
+		}
+		if cur, _ := d.Current(context.Background()); cur != c.current {
+			t.Errorf("%s current = %q", c.app, cur)
+		}
 	}
 }

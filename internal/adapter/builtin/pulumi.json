@@ -1,0 +1,27 @@
+{
+  "id": "pulumi",
+  "name": "Pulumi",
+  "category": "Cloud CLI",
+  "color": "#8A3391",
+  "glyph": "PU",
+  "description": "Swaps Pulumi's credentials file, which holds the backend logins and tokens.",
+  "files": [
+    {
+      "id": "credentials",
+      "paths": {
+        "default": [
+          "{home}/.pulumi/credentials.json"
+        ]
+      },
+      "env_path": "credentials.json"
+    }
+  ],
+  "env": [
+    {
+      "name": "PULUMI_HOME",
+      "value": "{profile_dir}"
+    }
+  ],
+  "login_hint": "Run `pulumi login` in a terminal.",
+  "notes": "Running a command under a profile points PULUMI_HOME at it, so plugins are downloaded again there."
+}

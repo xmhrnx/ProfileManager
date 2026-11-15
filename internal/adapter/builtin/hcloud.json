@@ -1,0 +1,49 @@
+{
+  "id": "hcloud",
+  "name": "Hetzner Cloud (hcloud)",
+  "category": "Cloud CLI",
+  "color": "#D50C2D",
+  "glyph": "HC",
+  "description": "Uses hcloud's own contexts, or swaps its config file.",
+  "website": "https://github.com/hetznercloud/cli",
+  "native": {
+    "list": [
+      "hcloud",
+      "context",
+      "list",
+      "-o",
+      "noheader",
+      "-o",
+      "columns=name"
+    ],
+    "current": [
+      "hcloud",
+      "context",
+      "active"
+    ],
+    "switch": [
+      "hcloud",
+      "context",
+      "use",
+      "{profile}"
+    ]
+  },
+  "files": [
+    {
+      "id": "config",
+      "paths": {
+        "default": [
+          "{home}/.config/hcloud/cli.toml"
+        ]
+      },
+      "env_path": "cli.toml"
+    }
+  ],
+  "env": [
+    {
+      "name": "HCLOUD_CONFIG",
+      "value": "{profile_dir}/cli.toml"
+    }
+  ],
+  "login_hint": "Run `hcloud context create <name>` in a terminal, then refresh."
+}

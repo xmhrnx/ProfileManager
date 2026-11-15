@@ -1,0 +1,47 @@
+{
+  "id": "doctl",
+  "name": "DigitalOcean (doctl)",
+  "category": "Cloud CLI",
+  "color": "#0080FF",
+  "glyph": "DO",
+  "description": "Uses doctl's own auth contexts, or swaps its config file.",
+  "website": "https://docs.digitalocean.com/reference/doctl/reference/auth/switch/",
+  "native": {
+    "list": [
+      "doctl",
+      "auth",
+      "list"
+    ],
+    "list_regex": "(?m)^(\\S+)",
+    "current": [
+      "doctl",
+      "auth",
+      "list"
+    ],
+    "current_regex": "(?m)^(\\S+) \\(current\\)",
+    "switch": [
+      "doctl",
+      "auth",
+      "switch",
+      "--context",
+      "{profile}"
+    ]
+  },
+  "files": [
+    {
+      "id": "config",
+      "paths": {
+        "linux": [
+          "{xdg_config}/doctl/config.yaml"
+        ],
+        "darwin": [
+          "{home}/Library/Application Support/doctl/config.yaml"
+        ],
+        "windows": [
+          "{appdata}/doctl/config.yaml"
+        ]
+      }
+    }
+  ],
+  "login_hint": "Run `doctl auth init --context <name>` in a terminal, then refresh."
+}

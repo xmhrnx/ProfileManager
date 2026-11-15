@@ -1,0 +1,27 @@
+{
+  "id": "expo",
+  "name": "Expo / EAS CLI",
+  "category": "Developer tools",
+  "color": "#4630EB",
+  "glyph": "EX",
+  "description": "Swaps the Expo account session, keeping the CLI's other state.",
+  "files": [
+    {
+      "id": "state",
+      "paths": {
+        "default": [
+          "{home}/.expo/state.json"
+        ]
+      },
+      "json_keys": [
+        "auth"
+      ]
+    }
+  ],
+  "identity": {
+    "file": "state",
+    "json": "auth.username"
+  },
+  "login_hint": "Run `eas login` in a terminal.",
+  "notes": "An EXPO_TOKEN environment variable overrides the saved session."
+}
