@@ -10,4 +10,8 @@ website = "https://github.com/xmhrnx/profilemanager"
 ldflags = "-X github.com/xmhrnx/profilemanager/internal/cli.Version={version}"
 
 [ci]
+# After `giode ci -f`, redo two edits in .github/workflows/release.yml:
+# pin the CLI (`go install github.com/xmhrnx/giode-cli/cmd/giode@v0.1.35-alpha.1`
+# instead of @latest) and use `go-version-file: go.mod` instead of
+# `go-version: stable`.
 test = "go vet ./... && go test ./..."
