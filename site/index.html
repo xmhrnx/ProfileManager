@@ -199,7 +199,7 @@ h1 .grad {
 @media (prefers-reduced-motion: reduce) { .pcard, .btn { transition: none; } }
 
 /* Sections */
-section { padding: 80px 0; }
+section { padding: 80px 0; scroll-margin-top: 20px; }
 .kicker { font: 500 13px/1 var(--mono); color: var(--primary-2); letter-spacing: .04em; text-transform: uppercase; }
 h2 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; letter-spacing: -.03em; margin: 12px 0 14px; }
 .sub { color: var(--muted); font-size: 17.5px; max-width: 40em; margin: 0; }
@@ -286,6 +286,20 @@ h2 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; letter-spacing: -.03em
 .plat b { font-size: 17px; }
 .plat div { color: var(--muted); font: 13px/1.6 var(--mono); margin-top: 4px; }
 @media (max-width: 760px) { .platforms { grid-template-columns: 1fr; } .dl { padding: 34px 20px; } }
+
+/* Privacy */
+.privacy .wrap { max-width: 860px; }
+.privacy h3 { font-size: 18px; margin: 30px 0 8px; letter-spacing: -.01em; }
+.privacy p, .privacy li { color: var(--muted); font-size: 15.5px; }
+.privacy ul { padding-left: 20px; margin: 8px 0; }
+.privacy li { margin: 6px 0; }
+.privacy li b, .privacy p b { color: var(--text); font-weight: 600; }
+.privacy .summary {
+  margin-top: 28px; padding: 18px 20px; border-radius: 16px; font-size: 16px; color: var(--text);
+  background: color-mix(in srgb, var(--success) 9%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--success) 30%, var(--border));
+}
+.privacy .updated { font: 13px var(--mono); color: var(--subtle); margin-top: 28px; }
 
 footer { padding: 40px 0 56px; color: var(--subtle); font-size: 14px; }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 28px; }
@@ -451,12 +465,47 @@ footer a { color: var(--muted); }
     </div>
   </div>
 </section>
+<section id="privacy" class="privacy">
+  <div class="wrap">
+    <div class="kicker">Privacy policy</div>
+    <h2>Nothing leaves your computer.</h2>
+    <p class="summary">Profile Manager has no accounts, no analytics, no ads and no crash reporting. It makes no network connections of its own and sends nothing to its developer or anyone else.</p>
+
+    <h3>What it stores, and where</h3>
+    <ul>
+      <li><b>Saved sign-ins</b> (snapshots of other programs' sign-in files and keychain entries), sealed with AES-256-GCM, in its data folder: <code>ProfileManager</code> in your user config folder, or <code>PROFILE_MANAGER_HOME</code> if you set it. A rollback copy of the sign-in from just before the last switch is kept there too, sealed the same way.</li>
+      <li><b>The vault's master key</b> in your system's credential store (macOS Keychain, Windows Credential Manager, Linux Secret Service), or in a private <code>vault.key</code> file in the data folder when there is no credential store.</li>
+      <li><b>Settings and state</b> (<code>state.json</code>): profile names, which profile is active, and fingerprints of files. No passwords or tokens.</li>
+      <li><b>Your own app definitions</b>, as JSON files in the data folder.</li>
+    </ul>
+
+    <h3>What it reads and changes on your computer</h3>
+    <ul>
+      <li>The sign-in files, folders and keychain entries named by the definitions of apps you save profiles for, so it can save and restore them. Auto-sync checks them on a timer (every 30 seconds by default) while the app runs.</li>
+      <li>The list of running programs, to see whether an app it switches is open; with your choice, it asks that app to quit.</li>
+      <li>Programs' own profile commands (such as <code>gh auth switch</code> or <code>kubectl config use-context</code>) for apps switched natively, and the commands you run with <code>profilemanager exec</code> or <code>shell</code>. Those programs talk to their own services as they always do; Profile Manager doesn't see or forward that traffic.</li>
+    </ul>
+
+    <h3>What it sends</h3>
+    <p>Nothing. The only time it opens anything online is when you click a link, such as an app's documentation, which opens in your browser.</p>
+
+    <h3>Deleting your data</h3>
+    <p>Deleting a profile in the window removes its snapshot. Deleting the data folder removes everything the app saved; uninstalling the app alone leaves it in place (except the Microsoft Store version, which Windows removes with the app). The master key can then be removed from your credential store, where it is the entry for <code>com.xmhrnx.profilemanager</code>.</p>
+
+    <h3>This website</h3>
+    <p>This page is hosted on GitHub Pages, which may log visitors' IP addresses (see GitHub's privacy statement), and loads its fonts from Google Fonts. It uses no cookies, analytics or trackers.</p>
+
+    <h3>Contact</h3>
+    <p>Questions or concerns: open an issue at <a href="https://github.com/xmhrnx/ProfileManager/issues">github.com/xmhrnx/ProfileManager/issues</a>. Changes to this policy are made in the open, in the project's repository.</p>
+    <p class="updated">Last updated 19 November 2026</p>
+  </div>
+</section>
 </main>
 
 <footer>
   <div class="wrap">
     <span>Profile Manager · <a href="https://github.com/xmhrnx/ProfileManager/blob/main/LICENSE">Apache License 2.0</a></span>
-    <span><a href="https://github.com/xmhrnx/ProfileManager">Source</a> · <a href="https://github.com/xmhrnx/ProfileManager/issues">Issues</a> · Built with <a href="https://github.com/xmhrnx/giode">Giode</a></span>
+    <span><a href="#privacy">Privacy</a> · <a href="https://github.com/xmhrnx/ProfileManager">Source</a> · <a href="https://github.com/xmhrnx/ProfileManager/issues">Issues</a> · Built with <a href="https://github.com/xmhrnx/giode">Giode</a></span>
   </div>
 </footer>
 
