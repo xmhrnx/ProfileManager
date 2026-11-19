@@ -5,9 +5,16 @@ version = "0.1.0"
 build = 1
 icon = "assets/icon.png"
 platforms = ["windows", "macos", "linux"]
+publisher = "xmhrnx"
 description = "Switch sign-ins between accounts for CLIs and desktop apps."
-website = "https://github.com/xmhrnx/profilemanager"
+website = "https://xmhrnx.github.io/ProfileManager/"
 ldflags = "-X github.com/xmhrnx/profilemanager/internal/cli.Version={version}"
+
+[linux]
+categories = ["Utility", "Security", "Development"]
+description = "Profile Manager keeps several sign-ins for command-line tools and desktop apps (Wrangler, Claude Code, AWS, GitHub CLI, Slack, Discord and more) in an encrypted vault and switches between them in one click, from the window, the tray or the command line."
+maintainer = "Mehran <61628815+xmhrnx@users.noreply.github.com>"
+license = "Apache-2.0"
 
 [ci]
 # After `giode ci -f`, redo two edits in .github/workflows/release.yml:
