@@ -10,6 +10,40 @@ description = "Switch sign-ins between accounts for CLIs and desktop apps."
 website = "https://xmhrnx.github.io/ProfileManager/"
 ldflags = "-X github.com/xmhrnx/profilemanager/internal/cli.Version={version}"
 
+[macos]
+min_os = 11
+
+[macos.plist]
+LSApplicationCategoryType = "public.app-category.developer-tools"
+
+# No [macos.store]: Profile Manager isn't built for the Mac App Store. Its
+# whole job is reading and writing other programs' sign-in files (~/.aws,
+# ~/.claude, ~/Library/Application Support/Slack, ...) and their Keychain
+# items, running their CLIs and asking them to quit, none of which the
+# App Sandbox allows. See RELEASING.md. macOS gets the notarized .dmg.
+
+# Only the Apple privacy manifest reads this; the app sends nothing anywhere.
+[privacy]
+tracking = false
+
+[windows]
+arch = "amd64"
+
+[windows.installer]
+per_machine = false
+desktop_shortcut = true
+
+# The Microsoft Store package (giode build msix). The Store signs it.
+# identity_name must match Partner Center -> the app -> Product identity
+# (Package/Identity/Name) once the name "Profile Manager" is reserved.
+# MSIX virtualizes new files in AppData: read RELEASING.md before
+# submitting it.
+[windows.msix]
+publisher = "CN=B40E8F57-A7E0-40BB-8E74-5D051D0B578B"
+publisher_display_name = "Mehran Zahiroddini"
+identity_name = "MehranZahir.ProfileManager"
+startup_task = true          # Settings -> Launch at login (App.SetLaunchAtLogin)
+
 [linux]
 categories = ["Utility", "Security", "Development"]
 description = "Profile Manager keeps several sign-ins for command-line tools and desktop apps (Wrangler, Claude Code, AWS, GitHub CLI, Slack, Discord and more) in an encrypted vault and switches between them in one click, from the window, the tray or the command line."
