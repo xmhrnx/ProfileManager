@@ -4,7 +4,7 @@ go 1.26.6
 
 require (
 	github.com/godbus/dbus/v5 v5.2.4
-	github.com/xmhrnx/giode v1.0.22-alpha.1
+	github.com/xmhrnx/giode v1.0.25-alpha.1
 	golang.org/x/sys v0.50.0
 )
 
