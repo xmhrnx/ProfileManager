@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile Manager: switch sign-ins in one click</title>
+<meta name="description" content="Keep several sign-ins for CLIs and desktop apps (Wrangler, Claude Code, AWS, GitHub CLI, Slack, Discord and more) in an encrypted vault and switch between them in one click. Free and open source for Windows, macOS and Linux.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0B0C10" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F3F4F8" media="(prefers-color-scheme: light)">
+<meta property="og:title" content="Profile Manager">
+<meta property="og:description" content="Switch the account a program is signed in to without signing out and back in.">
+<meta property="og:image" content="img/screenshot-dark.png">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0B0C10;
+  --bg-2: #101219;
+  --surface: #13151C;
+  --raised: #191C25;
+  --text: #ECEEF4;
+  --muted: #8C93A6;
+  --subtle: #5E6578;
+  --border: #252935;
+  --primary: #8B6CFF;
+  --primary-2: #B69CFF;
+  --accent: #3EA6FF;
+  --teal: #2DD4BF;
+  --success: #34D399;
+  --warning: #F5B544;
+  --glow: rgba(124, 92, 255, .35);
+  --shadow: 0 24px 60px -20px rgba(0, 0, 0, .7);
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #F3F4F8;
+    --bg-2: #ECEDF4;
+    --surface: #FFFFFF;
+    --raised: #F7F7FB;
+    --text: #12141B;
+    --muted: #5C6378;
+    --subtle: #8A90A2;
+    --border: #E2E4EC;
+    --primary: #6A4BFF;
+    --primary-2: #8B6CFF;
+    --accent: #1E88E5;
+    --teal: #0D9488;
+    --success: #0F9F6E;
+    --warning: #C7811A;
+    --glow: rgba(106, 75, 255, .18);
+    --shadow: 0 24px 50px -24px rgba(30, 20, 80, .35);
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+code, kbd { font-family: var(--mono); font-size: .9em; }
+.wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+/* Header */
+.top {
+  position: sticky; top: 0; z-index: 10;
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+}
+.top .wrap { display: flex; align-items: center; gap: 24px; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; letter-spacing: -.01em; }
+.brand img { width: 28px; height: 28px; }
+.top nav { margin-left: auto; display: flex; gap: 22px; font-size: 14px; color: var(--muted); }
+.top nav a { text-decoration: none; }
+.top nav a:hover { color: var(--text); }
+@media (max-width: 720px) { .top nav .opt { display: none; } }
+
+/* Hero */
+.hero { position: relative; padding: 84px 0 72px; }
+.hero::before {
+  content: ""; position: absolute; inset: -120px 0 auto; height: 640px; z-index: -1;
+  background:
+    radial-gradient(520px 300px at 72% 40%, var(--glow), transparent 70%),
+    radial-gradient(380px 260px at 18% 10%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%);
+}
+.hero .wrap { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 500 12.5px/1 var(--mono); color: var(--primary-2);
+  padding: 7px 12px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+  background: color-mix(in srgb, var(--primary) 9%, transparent);
+}
+.eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 10px var(--success); }
+h1 {
+  font-size: clamp(40px, 6.2vw, 68px); line-height: 1.02; letter-spacing: -.035em;
+  margin: 22px 0 18px; font-weight: 800;
+}
+h1 .grad {
+  background: linear-gradient(100deg, var(--primary-2), var(--primary) 45%, var(--accent));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lede { font-size: 19px; color: var(--muted); max-width: 33em; margin: 0 0 30px; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 13px 20px; border-radius: 12px; font-weight: 600; font-size: 15px;
+  text-decoration: none; border: 1px solid var(--border); background: var(--surface);
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+.btn:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--text) 25%, var(--border)); }
+.btn.primary {
+  color: #fff; border-color: transparent;
+  background: linear-gradient(135deg, #8B6CFF, #5B3BEF);
+  box-shadow: 0 10px 30px -10px rgba(124, 92, 255, .8), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.btn svg { width: 18px; height: 18px; }
+.meta { margin-top: 18px; font-size: 13.5px; color: var(--subtle); }
+
+/* The deck of profile cards */
+.deck-stage { position: relative; height: 430px; perspective: 1400px; }
+.deck-app {
+  position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 12px; white-space: nowrap;
+  padding: 10px 14px 10px 10px; border-radius: 14px;
+  background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow);
+  font-size: 14px; z-index: 5;
+}
+.tile {
+  width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+  font: 700 13px/1 var(--sans); color: #fff; flex: none;
+}
+.deck-app small { display: block; color: var(--muted); font-size: 12px; }
+.deck { position: absolute; left: 50%; top: 84px; width: 280px; height: 300px; margin-left: -140px; }
+.pcard {
+  position: absolute; inset: 0; border-radius: 22px; padding: 22px;
+  background: var(--surface); border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 10px;
+  transition: transform .7s cubic-bezier(.2, .8, .2, 1), opacity .5s ease, border-color .4s ease, box-shadow .4s ease;
+  transform-origin: 50% 110%;
+}
+.pcard .av {
+  width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
+  color: #fff; font-weight: 700; font-size: 18px;
+}
+.pcard h3 { margin: 6px 0 0; font-size: 20px; letter-spacing: -.01em; }
+.pcard .who { color: var(--muted); font-size: 14px; font-family: var(--mono); }
+.pcard .foot {
+  margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--subtle);
+}
+.badge {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 999px; color: var(--success);
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  opacity: 0; transition: opacity .4s ease;
+}
+.pcard .head { display: flex; justify-content: space-between; align-items: center; }
+.switch {
+  font: 600 13px var(--sans); color: #fff; border: 0; cursor: pointer;
+  padding: 7px 12px; border-radius: 9px; background: linear-gradient(135deg, #8B6CFF, #5B3BEF);
+}
+.pcard.p0 { transform: translate(0, 0) rotate(0deg); z-index: 3; border-color: color-mix(in srgb, var(--success) 55%, var(--border)); box-shadow: var(--shadow), 0 0 0 1px color-mix(in srgb, var(--success) 25%, transparent), 0 30px 80px -30px color-mix(in srgb, var(--success) 50%, transparent); }
+.pcard.p0 .badge { opacity: 1; }
+.pcard.p0 .switch { display: none; }
+.pcard.p1 { transform: translate(-70px, 18px) rotate(-11deg) scale(.95); z-index: 2; }
+.pcard.p2 { transform: translate(70px, 18px) rotate(11deg) scale(.95); z-index: 1; }
+.pcard.p1 .active-only, .pcard.p2 .active-only { display: none; }
+.pcard:not(.p0) .idle-only { display: inline; }
+.pcard.p0 .idle-only { display: none; }
+.deck-hint { position: absolute; bottom: 0; width: 100%; text-align: center; font-size: 13px; color: var(--subtle); }
+
+@media (max-width: 900px) {
+  .hero { padding: 48px 0 40px; }
+  .hero .wrap { grid-template-columns: 1fr; gap: 24px; }
+  .deck-stage { height: 420px; }
+}
+@media (max-width: 420px) {
+  .deck-stage { height: 390px; }
+  .deck { width: 220px; margin-left: -110px; height: 270px; }
+  .pcard.p1 { transform: translate(-38px, 14px) rotate(-9deg) scale(.92); }
+  .pcard.p2 { transform: translate(38px, 14px) rotate(9deg) scale(.92); }
+  .pcard { padding: 18px; }
+  .eyebrow .opt { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .pcard, .btn { transition: none; } }
+
+/* Sections */
+section { padding: 80px 0; }
+.kicker { font: 500 13px/1 var(--mono); color: var(--primary-2); letter-spacing: .04em; text-transform: uppercase; }
+h2 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; letter-spacing: -.03em; margin: 12px 0 14px; }
+.sub { color: var(--muted); font-size: 17.5px; max-width: 40em; margin: 0; }
+
+/* Screenshot */
+.shot { padding-top: 10px; }
+.window {
+  border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+  box-shadow: 0 50px 120px -40px var(--glow), var(--shadow);
+  background: #0B0C10;
+}
+
+/* Strategies */
+.ways { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 40px; }
+.way {
+  min-width: 0; position: relative; padding: 26px; border-radius: 20px;
+  background: var(--surface); border: 1px solid var(--border);
+}
+.way .num { font: 500 12px var(--mono); color: var(--subtle); }
+.way h3 { margin: 10px 0 8px; font-size: 21px; letter-spacing: -.01em; display: flex; align-items: center; gap: 10px; }
+.way h3 span { width: 10px; height: 10px; border-radius: 3px; }
+.way p { color: var(--muted); margin: 0 0 14px; font-size: 15px; }
+.way .eg { font: 13px/1.5 var(--mono); color: var(--text); background: var(--raised); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; overflow-wrap: anywhere; }
+@media (max-width: 900px) { .ways { grid-template-columns: minmax(0, 1fr); } }
+
+/* Apps */
+.apps { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
+.app {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 7px 14px 7px 7px; border-radius: 12px; font-size: 14.5px; font-weight: 500;
+  background: var(--surface); border: 1px solid var(--border);
+}
+.app .tile { width: 30px; height: 30px; border-radius: 8px; font-size: 11.5px; }
+.app.own { border-style: dashed; color: var(--muted); }
+.app.own .tile { background: transparent; border: 1px dashed var(--subtle); color: var(--muted); font-size: 16px; }
+
+/* Safety */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; margin-top: 40px; }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.checks li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; }
+.checks li svg { width: 22px; height: 22px; color: var(--success); margin-top: 2px; }
+.checks b { display: block; font-weight: 600; }
+.checks span { color: var(--muted); font-size: 15px; }
+.vault {
+  border-radius: 20px; padding: 26px; background: var(--surface); border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.vault::after {
+  content: ""; position: absolute; right: -60px; top: -60px; width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--teal) 30%, transparent), transparent 70%);
+}
+.vault h3 { margin: 0 0 6px; font-size: 20px; }
+.vault p { color: var(--muted); margin: 0 0 18px; font-size: 15px; }
+.stores { display: grid; gap: 8px; }
+.store { display: flex; justify-content: space-between; gap: 12px; padding: 11px 14px; border-radius: 11px; background: var(--raised); border: 1px solid var(--border); font-size: 14.5px; }
+.store em { font-style: normal; color: var(--muted); font-family: var(--mono); font-size: 13px; text-align: right; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; gap: 32px; } }
+
+/* Terminal */
+.term {
+  margin-top: 36px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+  background: #0E1016; color: #D6DAE6; box-shadow: var(--shadow);
+}
+.term .bar { display: flex; gap: 7px; padding: 12px 14px; background: #151821; border-bottom: 1px solid #23273273; }
+.term .bar i { width: 11px; height: 11px; border-radius: 50%; background: #2C303C; }
+.term pre { margin: 0; padding: 20px 22px; font: 14px/1.75 var(--mono); overflow-x: auto; }
+.term .c { color: #6B7285; }
+.term .p { color: #8B6CFF; user-select: none; }
+.term .k { color: #3EA6FF; }
+.term .s { color: #34D399; }
+
+/* Download */
+.dl {
+  border-radius: 28px; padding: 48px; text-align: center; position: relative; overflow: hidden;
+  background:
+    radial-gradient(600px 260px at 50% 0%, var(--glow), transparent 70%),
+    var(--surface);
+  border: 1px solid var(--border);
+}
+.dl img { width: 96px; height: 96px; margin: 0 auto 10px; }
+.dl .sub { margin-inline: auto; }
+.platforms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 34px 0 30px; text-align: left; }
+.plat { padding: 18px 20px; border-radius: 16px; background: var(--raised); border: 1px solid var(--border); }
+.plat b { font-size: 17px; }
+.plat div { color: var(--muted); font: 13px/1.6 var(--mono); margin-top: 4px; }
+@media (max-width: 760px) { .platforms { grid-template-columns: 1fr; } .dl { padding: 34px 20px; } }
+
+footer { padding: 40px 0 56px; color: var(--subtle); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 28px; }
+footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#"><img src="img/favicon.png" alt="" width="28" height="28">Profile Manager</a>
+    <nav>
+      <a class="opt" href="#how">How it works</a>
+      <a class="opt" href="#apps">Apps</a>
+      <a class="opt" href="#safety">Security</a>
+      <a href="#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i>Free &amp; open source<span class="opt"> · Windows · macOS · Linux</span></span>
+      <h1>One app,<br><span class="grad">every account.</span></h1>
+      <p class="lede">Keep a work and a personal Cloudflare login, two Claude Code accounts, separate AWS or Slack setups. Each is a profile, and switching takes one click from the window or the tray. No signing out and back in.</p>
+      <div class="cta">
+        <a class="btn primary" href="#download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+          Download
+        </a>
+        <a class="btn" href="https://github.com/xmhrnx/ProfileManager">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+          Source on GitHub
+        </a>
+      </div>
+      <p class="meta">Built with Giode: native Go, GPU-rendered, no webview.</p>
+    </div>
+
+    <div class="deck-stage" aria-label="Three saved profiles for Cloudflare Wrangler; click Switch to make one active">
+      <div class="deck-app"><span class="tile" style="background:#F38020">CF</span><div>Cloudflare Wrangler<small>3 profiles · encrypted vault</small></div></div>
+      <div class="deck" id="deck">
+        <article class="pcard p0" data-i="0">
+          <div class="head"><span class="av" style="background:#14B8A6">CA</span><span class="badge">● Signed in</span></div>
+          <h3>Client Acme</h3>
+          <div class="who">ops@acme.example</div>
+          <div class="foot"><span class="active-only">Synced just now</span><span class="idle-only">Saved sign-in</span><button class="switch" type="button">⇄ Switch</button></div>
+        </article>
+        <article class="pcard p1" data-i="1">
+          <div class="head"><span class="av" style="background:#8B6CFF">W</span><span class="badge">● Signed in</span></div>
+          <h3>Work</h3>
+          <div class="who">me@company.example</div>
+          <div class="foot"><span class="active-only">Synced just now</span><span class="idle-only">Saved sign-in</span><button class="switch" type="button">⇄ Switch</button></div>
+        </article>
+        <article class="pcard p2" data-i="2">
+          <div class="head"><span class="av" style="background:#3EA6FF">P</span><span class="badge">● Signed in</span></div>
+          <h3>Personal</h3>
+          <div class="who">me@home.example</div>
+          <div class="foot"><span class="active-only">Synced just now</span><span class="idle-only">Saved sign-in</span><button class="switch" type="button">⇄ Switch</button></div>
+        </article>
+      </div>
+      <div class="deck-hint">Pick a card behind to switch to it</div>
+    </div>
+  </div>
+</section>
+
+<section class="shot" aria-label="Screenshot">
+  <div class="wrap">
+    <div class="window"><img src="img/screenshot-dark.png" width="1240" height="800" alt="Profile Manager's window: a sidebar of apps, and Cloudflare Wrangler's Work, Personal and Client Acme profiles with Client Acme signed in" loading="lazy"></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="kicker">How it works</div>
+    <h2>Three ways to switch, one click to do it.</h2>
+    <p class="sub">Every program keeps its sign-in somewhere on disk or in the OS keychain. An app definition says where, and Profile Manager picks the right strategy for it.</p>
+    <div class="ways">
+      <div class="way">
+        <div class="num">01</div>
+        <h3><span style="background:var(--primary)"></span>Swap</h3>
+        <p>Captures the files, folders, JSON keys and keychain entries that hold the sign-in into an encrypted snapshot, and restores another profile's snapshot in their place.</p>
+        <div class="eg">Wrangler · Claude Code · AWS · Slack</div>
+      </div>
+      <div class="way">
+        <div class="num">02</div>
+        <h3><span style="background:var(--accent)"></span>Native</h3>
+        <p>For programs that already support several accounts, it calls their own profile commands.</p>
+        <div class="eg">gh auth switch · kubectl config use-context</div>
+      </div>
+      <div class="way">
+        <div class="num">03</div>
+        <h3><span style="background:var(--teal)"></span>Per-command</h3>
+        <p>Decrypts a profile into a private temporary folder, points the program at it, saves changes when it exits and wipes the folder. Two accounts in two terminals at once.</p>
+        <div class="eg">profilemanager exec · shell</div>
+      </div>
+    </div>
+
+    <div class="term" role="img" aria-label="Terminal examples of the profilemanager command">
+      <div class="bar"><i></i><i></i><i></i></div>
+<pre><span class="c"># the same binary is a command-line tool</span>
+<span class="p">$ </span>profilemanager <span class="k">add</span> wrangler Work            <span class="c"># save the current sign-in</span>
+<span class="p">$ </span>profilemanager <span class="k">switch</span> wrangler Personal     <span class="c"># --quit closes a running app first</span>
+<span class="p">$ </span>profilemanager <span class="k">exec</span> wrangler Work -- <span class="s">wrangler deploy</span>
+<span class="p">$ </span>profilemanager <span class="k">shell</span> claude-code Work       <span class="c"># a shell signed in to Work</span></pre>
+    </div>
+  </div>
+</section>
+
+<section id="apps">
+  <div class="wrap">
+    <div class="kicker">Supported apps</div>
+    <h2>Twenty apps built in. Yours in a minute.</h2>
+    <p class="sub">Cloud CLIs, AI tools, developer tools and desktop apps. Anything else: describe where it keeps its sign-in with the form, or import a JSON definition.</p>
+    <div class="apps" id="applist"></div>
+  </div>
+</section>
+
+<section id="safety">
+  <div class="wrap">
+    <div class="kicker">Security &amp; safety</div>
+    <h2>Your tokens stay sealed, and switches can't half-happen.</h2>
+    <div class="grid2">
+      <ul class="checks">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><b>Save before switching</b><span>The live sign-in is saved into the active profile before another is restored, and auto-sync (every 30 s by default) keeps rotating OAuth tokens current.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><b>Account-mismatch check</b><span>If someone signed in to a different account, it isn't written over your profile. You choose: keep it as a new profile, update, or restore.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><b>Waits for running programs</b><span>Electron apps and Claude Code sessions are switched once they close, or asked to quit cleanly.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><b>Atomic, with rollback</b><span>Files are replaced by write-then-rename and folders swapped in whole. If any step fails, the previous sign-in is put back.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><b>Dotfile links intact</b><span>Symlinks such as <code>~/.npmrc → dotfiles/npmrc</code> are written through, not replaced.</span></div></li>
+      </ul>
+      <div class="vault">
+        <h3>AES-256-GCM vault</h3>
+        <p>Each snapshot is bound to its app and profile, so a file swapped or edited on disk fails authentication. The random 256-bit master key never sits next to the vault: it lives in your OS credential store.</p>
+        <div class="stores">
+          <div class="store">macOS<em>Keychain</em></div>
+          <div class="store">Windows<em>Credential Manager</em></div>
+          <div class="store">Linux<em>Secret Service</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap">
+    <div class="dl">
+      <img src="img/icon.png" alt="" width="96" height="96">
+      <h2>Get Profile Manager</h2>
+      <p class="sub">Free and open source. Every release is built in GitHub Actions from the tagged source.</p>
+      <div class="platforms">
+        <div class="plat"><b>Windows</b><div>setup .exe · .msix</div></div>
+        <div class="plat"><b>macOS</b><div>.dmg</div></div>
+        <div class="plat"><b>Linux</b><div>.deb · .rpm</div></div>
+      </div>
+      <div class="cta" style="justify-content:center">
+        <a class="btn primary" href="https://github.com/xmhrnx/ProfileManager/releases/latest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+          Latest release
+        </a>
+        <a class="btn" href="https://github.com/xmhrnx/ProfileManager#building">Build from source</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Profile Manager · <a href="https://github.com/xmhrnx/ProfileManager/blob/main/LICENSE">Apache License 2.0</a></span>
+    <span><a href="https://github.com/xmhrnx/ProfileManager">Source</a> · <a href="https://github.com/xmhrnx/ProfileManager/issues">Issues</a> · Built with <a href="https://github.com/xmhrnx/giode">Giode</a></span>
+  </div>
+</footer>
+
+<script>
+// The supported apps, from internal/adapter/builtin.
+const apps = [
+  ["Cloudflare Wrangler", "#F38020"], ["AWS CLI", "#FF9900"], ["Google Cloud CLI", "#4285F4"],
+  ["Azure CLI", "#0078D4"], ["Vercel CLI", "#A1A1AA"], ["Netlify CLI", "#32E6E2"],
+  ["Firebase CLI", "#FFCA28"], ["Fly.io", "#8B5CF6"], ["Supabase CLI", "#3ECF8E"],
+  ["Terraform / HCP", "#7B42BC"], ["Claude Code", "#D97757"], ["OpenAI Codex CLI", "#10A37F"],
+  ["Gemini CLI", "#4E8CF7"], ["GitHub CLI", "#8B949E"], ["kubectl", "#326CE5"],
+  ["Docker", "#2496ED"], ["npm", "#CB3837"], ["Slack", "#4A154B"], ["Discord", "#5865F2"],
+  ["Telegram Desktop", "#26A5E4"],
+];
+const list = document.getElementById("applist");
+for (const [name, color] of apps) {
+  const words = name.replace(/[^A-Za-z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
+  const initials = (words.length > 1 ? words[0][0] + words[1][0] : name.slice(0, 2)).toUpperCase();
+  const el = document.createElement("span");
+  el.className = "app";
+  el.innerHTML = '<span class="tile"></span>';
+  el.firstChild.textContent = initials;
+  el.firstChild.style.background = color;
+  // Dark initials on light brand colors (Firebase yellow, Netlify teal).
+  const [r, g, b] = [1, 3, 5].map(i => parseInt(color.slice(i, i + 2), 16));
+  if (0.299 * r + 0.587 * g + 0.114 * b > 170) el.firstChild.style.color = "#12141B";
+  el.append(name);
+  list.append(el);
+}
+const own = document.createElement("span");
+own.className = "app own";
+own.innerHTML = '<span class="tile">+</span>Add your own';
+list.append(own);
+
+// Switching profiles in the hero deck: the chosen card comes to the front.
+const cards = [...document.querySelectorAll("#deck .pcard")];
+let order = [0, 1, 2];
+function layout() {
+  order.forEach((ci, pos) => { cards[ci].className = "pcard p" + pos; });
+}
+function bringToFront(ci) {
+  if (order[0] === ci) return;
+  order = [ci, ...order.filter(x => x !== ci)];
+  layout();
+}
+cards.forEach((card, ci) => card.addEventListener("click", () => bringToFront(ci)));
+</script>
+</body>
+</html>

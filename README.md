@@ -10,7 +10,8 @@ profile while the rest of the system stays as it is.
 
 Built with [Giode](https://github.com/xmhrnx/giode) (Go, GPU-rendered, no
 webview) for Windows, macOS and Linux, with a custom window frame and a
-light and dark theme.
+light and dark theme. Website and downloads:
+[xmhrnx.github.io/ProfileManager](https://xmhrnx.github.io/ProfileManager/).
 
 ## How it works
 
