@@ -172,6 +172,7 @@ instead of editing it). Pushing a version tag (`git tag v0.1.0 && git push
 for Windows, and `.deb` and `.rpm` packages for Linux, and attaches them to a
 GitHub release. "Run workflow" in the Actions tab builds them without
 releasing. Signing uses the repository's secrets when they're set.
+[RELEASING.md](RELEASING.md) lists the secrets and the store steps.
 
 The data folder is `ProfileManager` in the user's config folder. Set
 `PROFILE_MANAGER_HOME` to use another one.
